@@ -1,0 +1,228 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden	
+}
+header{
+  position: fixed;
+  width: 100%;
+  z-index: 5;
+  font-size: 20px;
+}
+                              /*/////////////////////////*/
+                              /*   IMAGE BILLET SIMPLE   */
+                              /*    POUR L'ALASKA        */
+                              /*/////////////////////////*/
+.img-fluid {
+  width: 100%;
+}
+                              /*/////////////////////////*/
+                              /*  PRESENTATION ECRIVAIN  */
+                              /*/////////////////////////*/
+#about{
+  background-color: #212743;
+}
+#titleAbout{
+  margin-top: 85px;
+  text-align: center;
+  font-size: 75px;
+  color:#ad8003;
+}
+#subtitleAbout{
+  text-align: center;
+  color:#ad8003;
+  margin-top: 30px;
+}
+#textAbout {
+  color:white;
+  margin: 0 auto;
+  width: 80%;
+  padding: 4em;
+  border: 2px solid #CCC;
+  border-radius: 1em;
+  background-color: #212743;
+  margin-top:100px;
+  margin-bottom:100px;
+  text-align: justify;
+  font-size: 18px;
+}
+                                /*/////////////////////////*/
+                                /*    CARTE CHAPITRES      */
+                                /*/////////////////////////*/
+#chapters{
+  background-color: #ad8003;
+}
+
+#chapters h1{
+  padding-top: 90px;
+  width: 100%;
+  text-align: center;
+  font-size:50px;
+  color:#212743;
+  padding-bottom: 70px;
+}
+#cardText{
+  margin: auto;
+}
+                                /*/////////////////////////*/
+                                /*    ADMIN ET PASSWORD    */
+                                /*/////////////////////////*/
+#administration {
+  width: 100%;
+  position: absolute;
+  top: 120px;
+  z-index:1;
+}
+#formAdmin{
+  margin: 0 auto;
+  width: 25%;
+  padding: 2em;
+  border: 1px solid #CCC;
+  border-radius: 1em;
+  background-color: #103565;
+}
+#crossAdmin{
+  position: relative;
+}
+#imgAdmin{
+  position: absolute;
+  right: 38%;
+  margin-top: 5px;
+}
+
+                                /*///////////////////////////////*/
+                                /*      CREATION D'UN COMPTE     */
+                                /*///////////////////////////////*/
+
+                              
+#creerCompte {
+  width: 100%;
+  position: absolute;
+  top: 200px;
+  z-index: 1;;
+}
+#formAccount {
+  margin: 0 auto;
+  width: 40%;
+  padding: 2em;
+  border: 1px solid #CCC;
+  border-radius: 1em;
+  background-color: #103565;
+}
+#labelAccountName {
+  color: #ffffff;
+}
+
+#labelAccountPseudo {
+  color: #ffffff;
+}
+#labelAccountMdp {
+  color: #ffffff;
+}
+#labelAccountMdp2 {
+  color: #ffffff;
+}
+#labelAccountMail {
+  color: #ffffff;
+}
+#crossNewAccount {
+  position: relative;
+}
+#imgNewAccount {
+  position: absolute;
+  right: 30.2%;
+  top: 3px;
+}
+
+                                      /*////////////////////////*/
+                                      /*  CREATION CHAPITRES    */
+                                      /*////////////////////////*/
+                       
+#articles{
+  position: relative;
+  width: 80%;
+  left: 48%;
+  margin-left: -38%;
+  top: 30px;
+  height: 750px;
+  padding-top: 30px;
+  padding: 2em;
+  border: 1px solid #CCC;
+  border-radius: 1em;
+  background-color: #212743;
+  z-index: 2;
+}
+#chapitre{
+  color:white;
+}
+#titleChapitre{
+  color:white;
+}
+#creer_chapitre{
+  position: absolute;
+  right: 6%;
+  bottom: 7%;
+}
+#content_chapitre{
+  width: 100%;
+  height: 450px;
+}
+#crossCreateArticle {
+  position: relative;
+}
+#imgCreateArticle {
+  position: absolute;
+  margin-top: -28px;
+  right: -2%;
+}
+                                  /*////////////////////////*/
+                                  /* MODIFICATION CHAPITRES */
+                                  /*////////////////////////*/
+#modification_chapitres {
+  padding-top: 110px;
+  top: 80px;
+  color: white;
+}
+#modifier_chapitre{
+  position: relative;
+  width: 80%;
+  left: 48%;
+  margin-left: -38%;
+  top: 30px;
+  height: 750px;
+  padding-top: 30px;
+  padding: 2em;
+  border: 1px solid #CCC;
+  border-radius: 1em;
+  background-color: #212743;
+  z-index: 2;
+}
+#contenu_chapitre{
+  min-height: 450px;
+}
+
+                                  /*////////////////////////*/
+                                  /* SUPPRESSION CHAPITRES  */
+                                  /*////////////////////////*/
+#suppression_chapitres{
+  padding-top:110px;
+  top:80px;
+  color:white;
+}
+
+footer{
+  background-color: #343a40;
+  padding-top: 110px;
+  padding-bottom:110px;
+}
+footer h5{
+  color:white;
+}
+#copyright{
+  color:white;
+}
+                            /*////////////////////////*/
+                            /* Commentaire chapitres  */
+                            /*////////////////////////*/
+
+
