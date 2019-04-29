@@ -5,14 +5,61 @@
         header('Location: admin.php');
         exit();
     }
-    try {
-        $bdd = new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
-    } catch (Exception $e) {
-        die('Erreur : ' . $e->getMessage());
-    }
     if(!empty($_POST))
     {
-        $number=trim(htmlspecialchars($_POST['number_chapter']));
+        try {
+            $bdd = new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
+        } catch (Exception $e) {
+            die('Erreur : ' . $e->getMessage());
+        }
+        $number=trim(htmlspecialchars($_POST['numberChapter']));
+        $title=trim(htmlspecialchars($_POST['titleChapter']));
+        $content=trim(htmlspecialchars($_POST['contentChapter']));
+        $validation = true;
+
+        if(empty($number) || empty($title) || empty($content))
+        {
+            $errorfields = "Tous les champs sont obligatoires ";
+            $validation = false;
+        }
+        if(!empty($_POST['numberChapter']))
+        {
+            $req = $bdd->prepare("SELECT * FROM chapter WHERE numberChapter = :number");
+            $req->execute(array(
+                "number" => $number
+            ));
+            $data = $req->fetch(PDO::FETCH_ASSOC);
+            if ($data == true)
+            {
+                $errorNumberChapter = "Numéro de chapitre déjà existant";
+                $validation = false;
+            }
+        }
+        if(!empty($_POST['titleChapter']))
+        {
+            $req = $bdd->prepare("SELECT * FROM chapter WHERE titleChapter = :title");
+            $req->execute(array(
+                "title" => $title
+            ));
+            $data = $req->fetch(PDO::FETCH_ASSOC);
+            if ($data == true)
+            {
+                $errorTitleChapter = "Titre de chapitre déjà existant";
+                $validation = false;
+            }
+        }
+        if($validation == true)
+        {
+            $req = $bdd->prepare("INSERT INTO chapter(numberChapter, titleChapter, contentChapter) VALUES (?,?,?)");
+            $req->execute(array(
+                $number,
+                $title,
+                $content,
+            ));
+            $success = "Votre chapitre a été crée avec succés !";
+            header('Location: admin.php');
+            exit();
+        }
     }
 ?>
 <!DOCTYPE html>
@@ -42,22 +89,69 @@
         <form action="creationChapter.php" method="post" id="creationChapter">
             <div class="form-group">
                 <label id="chapter">Chapitre : </label>
-                <input type="text" name="number_chapter" style="text-transform: capitalize;" id="numberChapter" class="form-control" placeholder="Chapitre X" value="<?php if (isset($number) and !empty($number)) {
+                <input type="text" name="numberChapter" style="text-transform: capitalize;" id="numberChapterId" class="form-control" placeholder="Chapitre X" value="<?php if (isset($number)) {
                                                                                                                                         echo $number;
                                                                                                                                     } ?>">
             </div>
             <div class="form-group">
-                <label id="titleChapter">Titre :</label>
-                <input type="text" name="titleChapter" id="titleChapter" style="text-transform: capitalize;" class="form-control" placeholder="Titre" value="<?php if (isset($title) and !empty($title)) {
+                <label id="titleChapterId">Titre :</label>
+                <input type="text" name="titleChapter" id="titleChapter" style="text-transform: capitalize;" class="form-control" placeholder="Titre" value="<?php if (isset($title)) {
                                                                                                                                     echo $title;
                                                                                                                                 } ?>">
             </div>
             <div class="form-group">
-                <label for="exampleFormControlTextarea1"></label>
-                <textarea name="contentChapter" id="contentChapter" class="form-control" rows="3"></textarea>
+                <label for="formControlTextarea1"></label>
+                <textarea name="contentChapter" id="contentChapterId" class="form-control" rows="3"></textarea>
             </div>
+
             <button type="submit" class="btn btn-success">Créer / Sauvegarder</button>
+
         </form>
+        <p>
+            <?php if (isset($errorfields)) { ?>
+            <div class="alert alert-danger" role="alert">
+                <?php echo $errorfields; ?>
+            </div>
+            <?php   
+            }
+            ?>
+        </p>
+        <p>
+            <?php if (isset($errorNumberChapter)) { ?>
+            <div class="alert alert-danger" role="alert">
+                <?php echo $errorNumberChapter; ?>
+            </div>
+            <?php   
+            }
+            ?>
+        </p>
+        <p>
+            <?php if (isset($errorTitleChapter)) { ?>
+            <div class="alert alert-danger" role="alert">
+                <?php echo $errorTitleChapter; ?>
+            </div>
+            <?php   
+            }
+            ?>
+        </p>
+        <p>
+            <?php if (isset($errorContentChapter)) { ?>
+            <div class="alert alert-danger" role="alert">
+                <?php echo $errorContentChapter; ?>
+            </div>
+            <?php   
+            }
+            ?>
+        </p>
+        <p>
+            <?php if (isset($success)) { ?>
+            <div class="alert alert-success" role="alert">
+                <?php echo $success; ?>
+            </div>
+            <?php   
+            }
+            ?>
+        </p>
     </section>    
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
