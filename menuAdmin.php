@@ -17,7 +17,7 @@
                             <a class="nav-link" id="nav-link" href="suppression_article.php">Supprimer</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="nav-link" href="account.php">Créer compte</a>
+                            <a class="nav-link" id="nav-link" href="creationAccount.php">Créer compte</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="nav-link" href="deconnexion.php">Se déconnecter</a>
