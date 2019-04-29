@@ -21,8 +21,8 @@ if (!empty($_POST)) {
     $data = $req->fetch(PDO::FETCH_ASSOC);
 
     if ($data) 
-    {
-        if ($_POST['password'] == $data['password1']) {
+    {  
+        if (password_verify($_POST['password'], $data['password1']))  {
             $_SESSION['user'] = $data['id'];
             header('Location: admin.php');
             exit();
