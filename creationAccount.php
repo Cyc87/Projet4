@@ -81,7 +81,7 @@
                 $mail
             ));
             $success = "Votre compte a été crée avec succés !";
-            header('Location: index.php');
+            header('Location: admin.php');
             exit();
         }
     }
@@ -209,7 +209,7 @@
         </p>
         <p>
             <?php if (isset($success)) { ?>
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-success" role="alert">
                 <?php echo $success; ?>
             </div>
             <?php   
