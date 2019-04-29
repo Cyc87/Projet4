@@ -27,10 +27,10 @@ if (!empty($_POST)) {
             header('Location: admin.php');
             exit();
         } else {
-            $erreurPassword = 'Votre mot de passe est invalide';
+            $errorPassword = 'Votre mot de passe est invalide';
         }
     } else {
-        $erreurUsername = 'Votre login est invalide';
+        $errorUsername = 'Votre login est invalide';
     }
 }
 ?>
@@ -77,9 +77,9 @@ if (!empty($_POST)) {
             ?>
         </p>
         <p>
-            <?php if (isset($erreurPassword)) { ?>
+            <?php if (isset($errorPassword)) { ?>
             <div class="alert alert-danger" role="alert">
-                <?php echo $erreurPassword; ?>
+                <?php echo $errorPassword; ?>
             </div>
             <?php   
             }
