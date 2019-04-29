@@ -53,7 +53,7 @@
             </div>
         </section>
 
-        <section id="chapters">
+        <section id="chaptersElement">
             <div class="row" id="index_Chapters">
                 <h1>CHAPITRES</h1>
                 

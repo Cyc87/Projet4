@@ -8,7 +8,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto " id="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" id="nav-link" href="creation_article.php">Créer chapitre</a>
+                            <a class="nav-link" id="nav-link" href="creationChapter.php">Créer chapitre</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="nav-link" href="modification_article.php">Modifier</a>

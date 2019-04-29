@@ -2,7 +2,6 @@
 session_start();
 
 if (isset($_SESSION['user'])) {
-    
     header('Location: admin.php');
     exit();
 }
@@ -12,6 +11,7 @@ if (!empty($_POST)) {
     } catch (Exception $e) {
         die('Erreur : ' . $e->getMessage());
     }
+
     $req = $bdd->prepare("SELECT * FROM `users` WHERE username = :username");
 
     $req->execute(array(
@@ -68,9 +68,9 @@ if (!empty($_POST)) {
             <button type="submit" class="btn btn-primary">Connection</button>
         </form>
         <p>
-            <?php if (isset($erreurUsername)) { ?>
+            <?php if (isset($errorUsername)) { ?>
             <div class="alert alert-danger" role="alert">
-                <?php echo $erreurUsername; ?>
+                <?php echo $errorUsername; ?>
             </div>
             <?php   
             }
@@ -84,7 +84,7 @@ if (!empty($_POST)) {
             <?php   
             }
             ?>
-        </p>
+        </p> 
     </section>
 
 </body>
