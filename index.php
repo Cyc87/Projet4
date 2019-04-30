@@ -1,3 +1,13 @@
+<?php
+    session_start();
+    try {
+        $bdd = new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
+    } catch (Exception $e) {
+        die('Erreur : ' . $e->getMessage());
+    }
+    $chapters = $bdd->query('SELECT * FROM `chapter` ORDER BY dateCreationChapter');
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -56,18 +66,21 @@
         <section id="chaptersElement">
             <div class="row" id="index_Chapters">
                 <h1>CHAPITRES</h1>
-                
+                <?php
+                    while ($c = $chapters->fetch()) {
+                ?>
                 <div id="cardText" class="card text-white bg-light mb-3" style="max-width: 18rem;">
-                    <div class="card-header" style="color:black"></div>
+                    <div class="card-header" style="color:black"><?= $c['numberChapter'] ?></div>
                     <div class="card-body">
-                        <h5 class="card-title" style="color:black"></h5>
-                        <p class="card-text" style="color:black"></p>
-                        <a  style="color:white;text-decoration:none;"class="btn btn-dark" >Voir plus...</a>
+                        <h5 class="card-title" style="color:black"><?= $c['titleChapter'] ?></h5>
+                        <a  style="color:white;text-decoration:none;"class="btn btn-dark">Voir plus...</a>
                     </div>
                 </div>
-            </div>
+                <?php 
+                }
+                ?>
+                </div>
         </section>
-        
         <footer>
             <div class="container">
                 <div class="row">
