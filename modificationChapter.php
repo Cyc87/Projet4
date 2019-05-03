@@ -128,7 +128,7 @@ if (isset($_GET['modif'])) {
                 </div>
                 <div class="form-group">
                     <label for="formControlTextarea"></label>
-                    <textarea name="contenu_chapitre" id="contenu_chapitre" class="form-control" rows="3"><?php if($validation == true) { ?> value="<?= $edit_chapter['contentChapter']?> " <?php } else{ ?> value="<?= $dataSearch['contentChapter']?> " <?php } ?> </textarea>
+                    <textarea name="contenu_chapitre" id="contenu_chapitre" class="form-control" rows="3"><?php if($validation == true) { ?><?= $edit_chapter['contentChapter']?> <?php } else{ ?><?= $dataSearch['contentChapter']?> <?php } ?></textarea>
                 </div>
                 
                 <button name="modif" type="submit" class="btn btn-warning"><a style="color:white">Modifier / Sauvegarder</a></button>
