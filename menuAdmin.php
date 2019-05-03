@@ -11,10 +11,10 @@
                             <a class="nav-link" id="nav-link" href="creationChapter.php">Créer chapitre</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="nav-link" href="modification_article.php">Modifier</a>
+                            <a class="nav-link" id="nav-link" href="modificationChapter.php">Modifier</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="nav-link" href="suppression_article.php">Supprimer</a>
+                            <a class="nav-link" id="nav-link" href="deleteChapter.php">Supprimer</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="nav-link" href="creationAccount.php">Créer compte</a>
