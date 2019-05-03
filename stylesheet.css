@@ -172,18 +172,18 @@ header{
 }
 #imgCreateChapter {
   position: absolute;
-  margin-top: -30px;
+  top: -30px;
   right: -2.4%;
 }
                                   /*////////////////////////*/
                                   /* MODIFICATION CHAPITRES */
                                   /*////////////////////////*/
-#modification_chapitres {
+#modificationChapters {
   padding-top: 110px;
   top: 80px;
   color: white;
 }
-#modifier_chapitre{
+#modification_chapter{
   position: relative;
   width: 80%;
   left: 48%;
@@ -199,6 +199,11 @@ header{
 }
 #contenu_chapitre{
   min-height: 450px;
+}
+#imgModificationChapter{
+  position: absolute;
+  top:-29px;
+  right:-2.5%;
 }
 
                                   /*////////////////////////*/
