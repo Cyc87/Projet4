@@ -34,15 +34,15 @@ if (isset($_GET['edit']) && !empty($_GET['edit'])) {
     }
 }
 
-if (isset($_POST['dataSearch']) && !empty($_POST['dataSearch'])){
-    $dataSearch_id = htmlspecialchars($_POST['dataSearch']);
+if (isset($_GET['dataSearch']) && !empty($_GET['dataSearch'])){
+    $dataSearch_id = htmlspecialchars($_GET['dataSearch']);
     $dataSearch = $bdd->prepare('SELECT * FROM chapter WHERE numberChapter LIKE "%'. $dataSearch_id.'%"');
     $dataSearch->execute(array($dataSearch_id));
 
     if ($dataSearch->rowCount() == 1) {
         $dataSearch = $dataSearch->fetch();
     } else {
-        $error = 'Le chapitre n\'existe pas';
+        $errorDataSearch = 'Le chapitre n\'existe pas';
     }
 }
 
@@ -100,12 +100,12 @@ if (isset($_GET['modif'])) {
                     </div>
                 </div>
                 <?php 
-            }
-            $chapter->closeCursor();
-            ?>
+                }
+                    $chapter->closeCursor();
+                ?>
             </div>
             <nav class="navbar navbar-light bg-light nav justify-content-center" style="margin-top:50px;">
-                <form class="form-inline" method="post" action="modificationChapter.php?edit="<?=  $c['id']  ?>>
+                <form class="form-inline" method="GET" action="modificationChapter.php?edit="<?=  $c['id']  ?>>
                     <input class="form-control mr-sm-2" style = "text-transform: capitalize;" type="search" placeholder="ChapitreX" aria-label="Search" name="dataSearch">      
                     <button name="search" type="submit" class="btn btn-primary my-2 my-sm-0"><a >Chercher</a></button>       
                 </form>
@@ -120,7 +120,7 @@ if (isset($_GET['modif'])) {
                 </div>
                 <div class="form-group">
                     <label id="chapter" style="color:white">Chapitre : </label>
-        <input type="text" name="numero_chapitre" id="numero_chapitre" class="form-control" placeholder="Chapitre X" <?php if($validation == true) { ?> value="<?= $edit_chapter['numberChapter']?> " <?php } else{ ?> value="<?= $dataSearch['numberChapter']?> " <?php } ?> >
+                    <input type="text" name="numero_chapitre" id="numero_chapitre" class="form-control" placeholder="Chapitre X" <?php if($validation == true) { ?> value="<?= $edit_chapter['numberChapter']?> " <?php } else{ ?> value="<?= $dataSearch['numberChapter']?> " <?php } ?> >
                 </div>
                 <div class="form-group">
                     <label id="titleChapitre"style="color:white" >Titre :</label>
