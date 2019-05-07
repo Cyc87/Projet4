@@ -11,62 +11,49 @@ try {
     die('Erreur : ' . $e->getMessage());
 }
 
-$chapter = $bdd->query('SELECT * FROM chapter ORDER BY dateCreationChapter DESC LIMIT 5');
+$chapter = $bdd->query('SELECT * FROM chapter ORDER BY dateCreationChapter ');
 
-$validation = 0;
 $edit_chapter['numberChapter'] = '';
 $edit_chapter['titleChapter'] = '';
 $edit_chapter['contentChapter'] = '';
-
-$dataSearch['numberChapter'] = '';
-$dataSearch['titleChapter'] = '';
-$dataSearch['contentChapter'] = '';
-
-if (isset($_GET['edit']) && !empty($_GET['edit'])) {
-    $validation= true;
-    $edit_id = htmlspecialchars($_GET['edit']);
-    $edit_chapter = $bdd->prepare('SELECT * FROM chapter WHERE id = ?');
-    $edit_chapter->execute(array($edit_id));
-    if ($edit_chapter->rowCount() == 1) {
-        $edit_chapter = $edit_chapter->fetch();
-    } else {
-        $errorEdit = 'Le chapitre n\'existe pas';
-    }
-}
-
-if (isset($_GET['dataSearch']) && !empty($_GET['dataSearch'])){
-    $dataSearch_id = htmlspecialchars($_GET['dataSearch']);
-    $dataSearch = $bdd->prepare('SELECT * FROM chapter WHERE numberChapter LIKE "%'. $dataSearch_id.'%"');
-    $dataSearch->execute(array($dataSearch_id));
-
-    if ($dataSearch->rowCount() == 1) {
-        $dataSearch = $dataSearch->fetch();
-    } else {
-        $errorDataSearch = 'Le chapitre n\'existe pas';
-    }
-}
-
-if (isset($_GET['modif'])) {
-    
-    $number = htmlspecialchars($_GET['numero_chapitre']);
-    $title = htmlspecialchars($_GET['titre_chapitre']);
-    $contenu = htmlspecialchars($_GET['contenu_chapitre']);
-    $id = $_GET['modif'];
-    
-    $modification = $bdd->prepare("UPDATE chapter SET numberChapter= :numberChapter, titleChapter= :titleChapter, contentChapter= :contentChapter  WHERE id = :id");
-      
-    $modification->execute(array(
-        'numberChapter' => $number,
-        'titleChapter' => $title,
-        'contentChapter' => $contenu,
-        'id' => $id,
+ 
+if(empty($_GET['edit'])){
+    $_GET['edit']= '';
+}else{
+    if (isset($_GET['edit']) && !empty($_GET['edit'])) {
         
-    ));
-    var_dump($number, $title, $contenu, $id);
-    $success = "Votre chapitre a été modifié avec succés !";
-    // header('location: modificationChapter.php');
-    exit();
-}
+        $edit_id = htmlspecialchars($_GET['edit']);
+        $edit_chapter = $bdd->prepare('SELECT * FROM chapter WHERE id = ?');
+        $edit_chapter->execute(array($edit_id));
+        if ($edit_chapter->rowCount() == 1) {
+            $edit_chapter = $edit_chapter->fetch();
+        } else {
+            $errorEdit = 'Le chapitre n\'existe pas';
+        }
+    }
+    if (isset($_POST['modif'])) {
+    
+        $modif_id = htmlspecialchars($_GET['edit']);
+        $number = htmlspecialchars($_POST['numero_chapitre']);
+        $title = htmlspecialchars($_POST['titre_chapitre']);
+        $contenu = htmlspecialchars($_POST['contenu_chapitre']);
+        
+        
+        $modification = $bdd->prepare("UPDATE chapter SET numberChapter= :numberChapter, titleChapter= :titleChapter, contentChapter= :contentChapter  WHERE id = :id");
+        
+        $modification->execute(array(
+            'numberChapter' => $number,
+            'titleChapter' => $title,
+            'contentChapter' => $contenu,
+            'id' => $modif_id,  
+            
+        ));
+        
+        $success = "Votre chapitre a été modifié avec succés !";
+        header('location: modificationChapter.php');
+        exit();
+    }
+ }   
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -104,15 +91,9 @@ if (isset($_GET['modif'])) {
                     $chapter->closeCursor();
                 ?>
             </div>
-            <nav class="navbar navbar-light bg-light nav justify-content-center" style="margin-top:50px;">
-                <form class="form-inline" method="GET" action="modificationChapter.php?edit="<?=  $c['id']  ?>>
-                    <input class="form-control mr-sm-2" style = "text-transform: capitalize;" type="search" placeholder="ChapitreX" aria-label="Search" name="dataSearch">      
-                    <button name="search" type="submit" class="btn btn-primary my-2 my-sm-0"><a >Chercher</a></button>       
-                </form>
-            </nav>
         </section>
         <section id="modification_chapter">
-            <form action="modificationChapter.php" method="get" name="modificationChapter">
+            <form action="modificationChapter.php?edit=<?= $_GET['edit'] ?>" method="post">
                 <div id="crossCreateChapter">
                     <a href="admin.php">
                         <input id="imgModificationChapter" type="image" alt="image" src="images/croix.png">
@@ -120,15 +101,15 @@ if (isset($_GET['modif'])) {
                 </div>
                 <div class="form-group">
                     <label id="chapter" style="color:white">Chapitre : </label>
-                    <input type="text" name="numero_chapitre" id="numero_chapitre" class="form-control" placeholder="Chapitre X" <?php if($validation == true) { ?> value="<?= $edit_chapter['numberChapter']?> " <?php } else{ ?> value="<?= $dataSearch['numberChapter']?> " <?php } ?> >
+                    <input type="text" name="numero_chapitre" id="numero_chapitre" class="form-control" placeholder="Chapitre X" value="<?= $edit_chapter['numberChapter']?> " >
                 </div>
                 <div class="form-group">
                     <label id="titleChapitre"style="color:white" >Titre :</label>
-                    <input type="text" name="titre_chapitre" id="titre_chapitre" class="form-control" placeholder="Titre" <?php if($validation == true) { ?> value="<?= $edit_chapter['titleChapter']?> " <?php } else{ ?> value="<?= $dataSearch['titleChapter']?> " <?php } ?> >
+                    <input type="text" name="titre_chapitre" id="titre_chapitre" class="form-control" placeholder="Titre" value="<?= $edit_chapter['titleChapter']?> " >
                 </div>
                 <div class="form-group">
                     <label for="formControlTextarea"></label>
-                    <textarea name="contenu_chapitre" id="contenu_chapitre" class="form-control" rows="3"><?php if($validation == true) { ?><?= $edit_chapter['contentChapter']?> <?php } else{ ?><?= $dataSearch['contentChapter']?> <?php } ?></textarea>
+                    <textarea name="contenu_chapitre" id="contenu_chapitre" class="form-control" rows="3"><?= $edit_chapter['contentChapter']?> </textarea>
                 </div>
                 
                 <button name="modif" type="submit" class="btn btn-warning"><a style="color:white">Modifier / Sauvegarder</a></button>
