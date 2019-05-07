@@ -73,7 +73,7 @@
                     <div class="card-header" style="color:black"><?= $c['numberChapter'] ?></div>
                     <div class="card-body">
                         <h5 class="card-title" style="color:black"><?= $c['titleChapter'] ?></h5>
-                        <a  style="color:white;text-decoration:none;"class="btn btn-dark">Voir plus...</a>
+                        <a  href="commentChapter.php?edit=<?= $c['id'] ?>" style="color:white;text-decoration:none;"class="btn btn-dark">Voir plus...</a>
                     </div>
                 </div>
                 <?php 
