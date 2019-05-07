@@ -215,19 +215,17 @@ header{
   color:white;
 }
 
-footer{
+                            /*////////////////////////*/
+                            /*      PIED DE PAGE      */
+                            /*////////////////////////*/
+footer {
   background-color: #343a40;
   padding-top: 110px;
-  padding-bottom:110px;
+  padding-bottom: 110px;
 }
-footer h5{
-  color:white;
+footer h5 {
+  color: white;
 }
-#copyright{
-  color:white;
+#copyright {
+  color: white;
 }
-                            /*////////////////////////*/
-                            /* Commentaire chapitres  */
-                            /*////////////////////////*/
-
-
