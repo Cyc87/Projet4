@@ -1,19 +1,25 @@
 <?php
-    session_start();
-    try{
-	  $bdd = new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
+  try {
+    $bdd= new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
+} catch (Exception $e) {
+    die('Erreur : ' . $e->getMessage());
+}
+
+$edit_chapter = htmlspecialchars($_GET['edit']);
+
+
+$chapter = $bdd->prepare('SELECT * FROM chapter WHERE id ='.$_GET['edit'].'');
+$chapter->execute(array($edit_chapter));
+    if ($chapter->rowCount() == 1) {
+            $chapter = $chapter->fetch();
+    } else {
+        $errorEdit = 'Le chapitre n\'existe pas';
     }
-    catch(Exception $e){
-        die('Erreur : '.$e->getMessage());
-    }
-    
-    $chapter = $bdd->query('SELECT * FROM chapter WHERE id ='.$_GET['edit'].'');
-    $reponse = $bdd->query ('SELECT pseudo, message_comment, DATE_FORMAT(date_heure, "%d/%m/%Y à %Hh%i") AS date_heure FROM comment WHERE id_article= '.$_GET['edit'].' ORDER BY ID DESC LIMIT 0, 5'); 
+$commentChapter = $bdd->query ('SELECT pseudo, message_comment, DATE_FORMAT(date_heure, "%d/%m/%Y à %Hh%i") AS date_heure FROM comment WHERE id_article= '.$_GET['edit'].' ORDER BY ID DESC LIMIT 0, 5'); 
 
     if(isset($_POST['submit'])){
-        
-        
-        if (isset($_POST['pseudo']) && !empty($_POST['pseudo']) && isset($_POST['message']) && !empty($_POST['message'])){
+  
+        if (isset($_POST['pseudo']) &&!empty($_POST['pseudo']) && isset($_POST['message']) &&!empty($_POST['message'])){
 
             $pseudo = htmlspecialchars($_POST['pseudo']);
             $message = htmlspecialchars($_POST['message']);
@@ -21,15 +27,16 @@
             $req = $bdd->prepare('INSERT INTO comment (pseudo, message_comment, id_article) VALUES(?, ?, ?)');
             $req->execute(array($pseudo, $message,$_GET['edit']));
   
-            header('location: commentChapter.php?edit=' . $_GET['edit']);
+            header('Location: commentChapter.php?edit=' . $_GET['edit']);
         }else{
             $error =  "Les champs sont obligatoires";
-            header('location: commentChapter.php?edit=' . $_GET['edit']);
+            header('Location: commentChapter.php?edit=' . $_GET['edit']);
             exit();
         }
     }
-    
- ?>
+
+
+?>
 <!DOCTYPE html>
     <html lang="fr">
         <head>
@@ -44,20 +51,15 @@
         </head>
         <body>
             <section>
-                <div class="card" style="width: 100%;height:auto ">
-                <?php
-                    while ($text = $chapter->fetch()) { 
-                ?>
-                <div class="card-body">
-                    <h6 class="card-title"><?= $text['numberChapter']?></h6>
-                    <h2 class="card-subtitle mb-2 text-muted text-center"><?= $text['titleChapter']?></h2></br>
-                    <p class="card-text text-justify"><?= $text['contentChapter']?></p>
-                    
-                </div>
-                </div>
-                <?php
-                    }
-                ?>
+                <form action="commentChapter.php?edit=<?= $_GET['edit'] ?>" method="get">
+                    <div class="card" style="width: 100%;height:auto ">
+                        <div class="card-body">
+                            <h6 class="card-title"><?= $chapter['numberChapter']?></h6>
+                            <h2 class="card-subtitle mb-2 text-muted text-center"><?= $chapter['titleChapter']?></h2></br>
+                            <p class="card-text text-justify"><?= $chapter['contentChapter']?></p>   
+                        </div>
+                    </div>
+                </form>   
             </section>
             <section>
                 <div class="card">
@@ -65,7 +67,7 @@
                         <h1 id=titreCommentaire style="padding-top:90px;text-align:center;"><span class="badge badge-info">Votre commentaire</span></h1>
                     </div>
                     <div class="card-body";>
-                        <form  action="" method="post">
+                        <form  action="commentChapter.php?edit=<?= $_GET['edit'] ?>" method="post">
                             <div class="form-group row">
                                 <label for="author" class="col-sm-3 col-form-label"></label>
                                 <input type="text" name="pseudo" placeholder="Pseudo" class="form-control col-sm-6">
@@ -80,9 +82,10 @@
                     </div>
                 </div>
             </section>
-            <section>	
-                <?php
-                    while ($data = $reponse->fetch()) {   
+            <section>  
+                <form  action="" method="get">
+                    <?php
+                    while ($data = $commentChapter->fetch()) {   
                 ?>
                 <div class="card text-white bg-info mb-3" style="max-width: 18rem;  margin: auto; margin-top:100px;">
                     <div class="card-header"><?= $data['pseudo'] ?></div>
@@ -91,23 +94,18 @@
                             <p class="card-text"><?=$data['message_comment'] ?></p>
                         </div>
                        
-                            <a name="report" class="btn btn-outline-danger btn-sm" style="color:white">Signaler</a>
-                        
+                            <a href="admin.php?edit=<?= $_GET['edit'] ?>" name="report" class="btn btn-outline-danger btn-sm" style="color:white">Signaler</a>
+                            
                 </div>
                 <?php
                     }    
                 ?>
-            
-                
+                </form>      
             </section>
             <div >
                <a class="btn btn-info" style="margin-left:70%;margin-top:100px;margin-bottom:50px;color:white;text-decoration:none;"href="index.php">Retour à l'accueil</a>
                 </div>
-            <?php
-                if (isset($error)) {
-                    echo $error;
-                }
-            ?>
+            
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

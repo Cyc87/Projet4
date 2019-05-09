@@ -69,7 +69,7 @@
                 <?php
                     while ($c = $chapters->fetch()) {
                 ?>
-                <div id="cardText" class="card text-white bg-light mb-3" style="max-width: 18rem;">
+                <div id="cardText" class="card text-white bg-light mb-3" style="width: 300px;">
                     <div class="card-header" style="color:black"><?= $c['numberChapter'] ?></div>
                     <div class="card-body">
                         <h5 class="card-title" style="color:black"><?= $c['titleChapter'] ?></h5>

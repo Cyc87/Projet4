@@ -11,7 +11,7 @@ try {
     die('Erreur : ' . $e->getMessage());
 }
 
-$chapter = $bdd->query('SELECT * FROM chapter ORDER BY dateCreationChapter ');
+$chapter = $bdd->query('SELECT * FROM chapter ORDER BY dateCreationChapter DESC ');
 
 $edit_chapter['numberChapter'] = '';
 $edit_chapter['titleChapter'] = '';
@@ -66,6 +66,13 @@ if(empty($_GET['edit'])){
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> 
         <title>Modification des chapitres</title>
+        <script src="tinymce/js/tinymce/tinymce.min.js"></script>
+        <script>
+            tinymce.init({
+                selector: 'textarea',
+                language : "fr_FR",
+            });
+        </script>
     </head>
     <body>
         <?php
@@ -78,7 +85,7 @@ if(empty($_GET['edit'])){
                 while ($c = $chapter->fetch()) {
                     ?>
                 <div id="modification_chapitre" class="card text-center" style="margin:0 auto;">
-                    <div style="color:black;padding-bottom:10px;" class="card-header">
+                    <div style="color:black;padding-bottom:10px;width:300px" class="card-header">
                         <?= $c['numberChapter'] ?>
                     </div>
                     <div class="card-body">

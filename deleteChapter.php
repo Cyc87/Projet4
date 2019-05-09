@@ -49,7 +49,7 @@ session_start();
                 while ($c = $chapter->fetch()) {
                     ?>
                 <div id="suppresion_chapitre" class="card text-center" style="margin:0 auto;">
-                    <div style="color:black;padding-bottom:10px;" class="card-header">
+                    <div style="color:black;padding-bottom:10px;width:300px" class="card-header">
                         <?= $c['numberChapter'] ?>
                     </div>
                     <div class="card-body">
