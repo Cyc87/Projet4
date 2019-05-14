@@ -17,12 +17,14 @@ session_start();
     if (isset($_GET['id']) && !empty($_GET['id'])) {
         
         $suppr_id = htmlspecialchars($_GET['id']);
-        $suppr = $bdd->prepare('DELETE FROM chapter WHERE id = ?');
-        $suppr->execute(array($suppr_id));
+        $supprChapter = $bdd->prepare('DELETE FROM chapter WHERE id = ?');
+        $supprComment = $bdd->prepare('DELETE From comment WHERE id_article = ?');
+        $supprChapter->execute(array($suppr_id));
+        $supprComment->execute(array($suppr_id));
         header('Location:deleteChapter.php');
         exit();
-    }
     
+    }
 
 ?>
 <!DOCTYPE html>
