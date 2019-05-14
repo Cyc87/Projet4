@@ -28,14 +28,10 @@ $commentChapter = $bdd->query ('SELECT pseudo, message_comment, DATE_FORMAT(date
             $req->execute(array($pseudo, $message,$_GET['edit']));
   
             header('Location: commentChapter.php?edit=' . $_GET['edit']);
-        }else{
-            $error =  "Les champs sont obligatoires";
-            header('Location: commentChapter.php?edit=' . $_GET['edit']);
-            exit();
         }
+        
     }
-
-
+ 
 ?>
 <!DOCTYPE html>
     <html lang="fr">
@@ -83,7 +79,7 @@ $commentChapter = $bdd->query ('SELECT pseudo, message_comment, DATE_FORMAT(date
                 </div>
             </section>
             <section>  
-                <form  action="" method="get">
+                <form  action="commentChapter.php?edit=<?= $_GET['edit'] ?>" method="get">
                     <?php
                     while ($data = $commentChapter->fetch()) {   
                 ?>
@@ -93,9 +89,7 @@ $commentChapter = $bdd->query ('SELECT pseudo, message_comment, DATE_FORMAT(date
                             <h5 class="card-title">Le <?=$data['date_heure']?></h5>
                             <p class="card-text"><?=$data['message_comment'] ?></p>
                         </div>
-                       
-                            <a href="admin.php?edit=<?= $_GET['edit'] ?>" name="report" class="btn btn-outline-danger btn-sm" style="color:white">Signaler</a>
-                            
+                            <a  name="report" class="btn btn-outline-danger btn-sm" style="color:white">Signaler</a>
                 </div>
                 <?php
                     }    
