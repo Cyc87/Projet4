@@ -5,10 +5,10 @@
     die('Erreur : ' . $e->getMessage());
 }
 
+
 $edit_chapter = htmlspecialchars($_GET['edit']);
 
-
-$chapter = $bdd->prepare('SELECT * FROM chapter WHERE id ='.$_GET['edit'].'');
+$chapter = $bdd->prepare('SELECT * FROM chapter WHERE id =?');
 $chapter->execute(array($edit_chapter));
     if ($chapter->rowCount() == 1) {
             $chapter = $chapter->fetch();
@@ -23,15 +23,26 @@ $commentChapter = $bdd->query ('SELECT pseudo, message_comment, DATE_FORMAT(date
 
             $pseudo = htmlspecialchars($_POST['pseudo']);
             $message = htmlspecialchars($_POST['message']);
-
-            $req = $bdd->prepare('INSERT INTO comment (pseudo, message_comment, id_article) VALUES(?, ?, ?)');
-            $req->execute(array($pseudo, $message,$_GET['edit']));
+            $signalement = "0";
+            $req = $bdd->prepare('INSERT INTO comment (pseudo, message_comment, id_article ,signalement) VALUES(?, ?, ?, ?)');
+            $req->execute(array($pseudo, $message,$_GET['edit'], $signalement));
   
             header('Location: commentChapter.php?edit=' . $_GET['edit']);
         }
         
     }
- 
+    if(isset($_GET['signed'])){
+        
+        $signalement = "1";
+        $modifSigned_id = ($_GET['edit']);
+        $req = $bdd->prepare('UPDATE comment SET signalement= :signalement WHERE id_article = :id ');
+        $req->execute(array(
+            'signalement' => $signalement,
+            'id' => $modifSigned_id,  
+            
+        ));
+    }
+
 ?>
 <!DOCTYPE html>
     <html lang="fr">
@@ -79,7 +90,7 @@ $commentChapter = $bdd->query ('SELECT pseudo, message_comment, DATE_FORMAT(date
                 </div>
             </section>
             <section>  
-                <form  action="commentChapter.php?edit=<?= $_GET['edit'] ?>" method="get">
+                <form  action="commentChapter.php?edit=<?= $_GET['edit'] ?>" method="post">
                     <?php
                     while ($data = $commentChapter->fetch()) {   
                 ?>
@@ -89,7 +100,8 @@ $commentChapter = $bdd->query ('SELECT pseudo, message_comment, DATE_FORMAT(date
                             <h5 class="card-title">Le <?=$data['date_heure']?></h5>
                             <p class="card-text"><?=$data['message_comment'] ?></p>
                         </div>
-                            <a  name="report" class="btn btn-outline-danger btn-sm" style="color:white">Signaler</a>
+                            <a href="commentChapter.php?edit=<?= $_GET['edit'] ?>&signed" name="report" class="btn btn-outline-danger btn-sm" style="color:white">Signaler</a>
+                  
                 </div>
                 <?php
                     }    
@@ -98,7 +110,7 @@ $commentChapter = $bdd->query ('SELECT pseudo, message_comment, DATE_FORMAT(date
             </section>
             <div >
                <a class="btn btn-info" style="margin-left:70%;margin-top:100px;margin-bottom:50px;color:white;text-decoration:none;"href="index.php">Retour à l'accueil</a>
-                </div>
+            </div>
             
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
