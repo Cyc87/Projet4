@@ -13,11 +13,34 @@
         die('Erreur : ' . $e->getMessage());
     }
     $req = $bdd->prepare("SELECT * FROM `users` WHERE id = :id");
-
     $req->execute(array("id" => $_SESSION['user']));
-
     $data = $req->fetch(PDO::FETCH_ASSOC);
+
+   $commentSigned = $bdd->query('SELECT * FROM comment WHERE signalement = "1" ');
+   
+   if(isset($_GET['supprSigned'])){
+        $supprSigned = htmlspecialchars($_GET['edit']);
+        $supprComment = $bdd->prepare('DELETE FROM comment WHERE id = ?');
+       
+        $supprComment->execute(array($supprSigned));
+        
+        header('location: admin.php');
+        exit();
     
+    }
+    if(isset($_GET['restoreSigned'])){
+        $signalement = "0";
+        $restoreSigned_id = ($_GET['edit']);
+        $req = $bdd->prepare('UPDATE comment SET signalement= :signalement WHERE id = :id ');
+        $req->execute(array(
+            'signalement' => $signalement,
+            'id' => $restoreSigned_id,  
+         
+        ));
+        header('location: admin.php');
+        exit();   
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -33,7 +56,28 @@
     </head>
        <?php include("menuAdmin.php"); ?>
     <body>
-
+    <section id="commentSigned">
+        
+            <?php
+                while ($c = $commentSigned->fetch()) {
+            ?>
+            <div id="cardText" class="card text-white bg-info" style="width: 300px;top:100px;">
+                <div class="card-header" style="color:black"><p>Le commentaire de <?= $c['pseudo'] ?></p></div>
+                    <div class="card-body">
+                        <h5 class="card-title" style="color:black"><?= $c['message_comment'] ?></h5>
+                        <h5 class="card-title" style="color:black"><p> A été signalé le</p><?= $c['date_heure'] ?></h5>
+                    </div>
+                    <a href="admin.php?edit=<?= $c['id'] ?>&supprSigned" class="btn btn-danger" >Supprimer</a>
+                    <a href="admin.php?edit=<?= $c['id'] ?>&restoreSigned" class="btn btn-warning" >Ne pas en tenir compte</a>
+                </div>
+                </br>
+                <?php 
+                }
+                
+                ?>
+            </div>    
+       
+    </section>
         
             
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
