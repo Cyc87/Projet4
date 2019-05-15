@@ -17,8 +17,6 @@
     $req->execute(array("id" => $_SESSION['user']));
 
     $data = $req->fetch(PDO::FETCH_ASSOC);
-
-    
     
 ?>
 <!DOCTYPE html>

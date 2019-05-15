@@ -14,7 +14,7 @@
         }
         $number=trim(htmlspecialchars($_POST['numberChapter']));
         $title=trim(htmlspecialchars($_POST['titleChapter']));
-        $content=trim(htmlspecialchars($_POST['contentChapter']));
+        $content=trim($_POST['contentChapter']);
         $validation = true;
 
         if(empty($number) || empty($title) || empty($content))
