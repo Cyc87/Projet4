@@ -15,7 +15,7 @@ $chapter->execute(array($edit_chapter));
     } else {
         $errorEdit = 'Le chapitre n\'existe pas';
     }
-$commentChapter = $bdd->query ('SELECT pseudo, message_comment, DATE_FORMAT(date_heure, "%d/%m/%Y à %Hh%i") AS date_heure FROM comment WHERE id_article= '.$_GET['edit'].' ORDER BY ID DESC LIMIT 0, 5'); 
+$commentChapter = $bdd->query ('SELECT id,pseudo, message_comment, DATE_FORMAT(date_heure, "%d/%m/%Y à %Hh%i") AS date_heure FROM comment WHERE id_article= '.$_GET['edit'].' ORDER BY ID DESC LIMIT 0, 5'); 
 
     if(isset($_POST['submit'])){
   
@@ -28,19 +28,20 @@ $commentChapter = $bdd->query ('SELECT pseudo, message_comment, DATE_FORMAT(date
             $req->execute(array($pseudo, $message,$_GET['edit'], $signalement));
   
             header('Location: commentChapter.php?edit=' . $_GET['edit']);
-        }
+        }var_dump($pseudo);
         
     }
     if(isset($_GET['signed'])){
         
         $signalement = "1";
-        $modifSigned_id = ($_GET['edit']);
+        $modifSigned_id = $_GET['edit'];
         $req = $bdd->prepare('UPDATE comment SET signalement= :signalement WHERE id_article = :id ');
         $req->execute(array(
             'signalement' => $signalement,
             'id' => $modifSigned_id,  
             
         ));
+        
     }
 
 ?>

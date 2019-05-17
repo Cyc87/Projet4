@@ -16,9 +16,10 @@
     $req->execute(array("id" => $_SESSION['user']));
     $data = $req->fetch(PDO::FETCH_ASSOC);
 
-   $commentSigned = $bdd->query('SELECT * FROM comment WHERE signalement = "1" ');
-   
-   if(isset($_GET['supprSigned'])){
+    
+    $commentSigned = $bdd->query('SELECT * FROM comment WHERE signalement = "1" ');
+    
+    if(isset($_GET['supprSigned'])){
         $supprSigned = htmlspecialchars($_GET['edit']);
         $supprComment = $bdd->prepare('DELETE FROM comment WHERE id = ?');
        
@@ -62,10 +63,9 @@
                 while ($c = $commentSigned->fetch()) {
             ?>
             <div id="cardText" class="card text-white bg-info" style="width: 300px;top:100px;">
-                <div class="card-header" style="color:black"><p>Le commentaire de <?= $c['pseudo'] ?></p></div>
+                <div class="card-header" style="color:black"><p><?= $c['pseudo'] ?> a commenté :</p></div>
                     <div class="card-body">
                         <h5 class="card-title" style="color:black"><?= $c['message_comment'] ?></h5>
-                        <h5 class="card-title" style="color:black"><p> A été signalé le</p><?= $c['date_heure'] ?></h5>
                     </div>
                     <a href="admin.php?edit=<?= $c['id'] ?>&supprSigned" class="btn btn-danger" >Supprimer</a>
                     <a href="admin.php?edit=<?= $c['id'] ?>&restoreSigned" class="btn btn-warning" >Ne pas en tenir compte</a>
