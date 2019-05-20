@@ -19,7 +19,8 @@
 
         if(empty($number) || empty($title) || empty($content))
         {
-            $errorfields = "Tous les champs sont obligatoires ";
+            $_SESSION['message'] = "Tous les champs sont obligatoires ";
+            $_SESSION['msg_type'] = "danger";
             $validation = false;
         }
         if(!empty($_POST['numberChapter']))
@@ -31,7 +32,8 @@
             $data = $req->fetch(PDO::FETCH_ASSOC);
             if ($data == true)
             {
-                $errorNumberChapter = "Numéro de chapitre déjà existant";
+                $_SESSION['message'] = "Numéro de chapitre déjà existant";
+                $_SESSION['msg_type'] = "danger";
                 $validation = false;
             }
         }
@@ -44,7 +46,8 @@
             $data = $req->fetch(PDO::FETCH_ASSOC);
             if ($data == true)
             {
-                $errorTitleChapter = "Titre de chapitre déjà existant";
+                $_SESSION['message'] = "Titre de chapitre déjà existant";
+                $_SESSION['msg_type'] = "danger";
                 $validation = false;
             }
         }
@@ -57,6 +60,7 @@
                 $content,
             ));
             $success = "Votre chapitre a été crée avec succés !";
+            $_SESSION['msg_type'] = "success";
             header('Location: admin.php');
             exit();
         }
@@ -118,51 +122,16 @@
             <button type="submit" class="btn btn-success">Créer / Sauvegarder</button>
 
         </form>
-        <p>
-            <?php if (isset($errorfields)) { ?>
-            <div class="alert alert-danger" role="alert">
-                <?php echo $errorfields; ?>
-            </div>
-            <?php   
+        <?php
+            if(isset($_SESSION['message'])){
+        ?>
+            <div class="alert alert-<?=$_SESSION['msg_type'] ?>" style="top:-122px">
+        <?php
+            echo $_SESSION['message'];
+            unset($_SESSION['message']);
             }
-            ?>
-        </p>
-        <p>
-            <?php if (isset($errorNumberChapter)) { ?>
-            <div class="alert alert-danger" role="alert">
-                <?php echo $errorNumberChapter; ?>
-            </div>
-            <?php   
-            }
-            ?>
-        </p>
-        <p>
-            <?php if (isset($errorTitleChapter)) { ?>
-            <div class="alert alert-danger" role="alert">
-                <?php echo $errorTitleChapter; ?>
-            </div>
-            <?php   
-            }
-            ?>
-        </p>
-        <p>
-            <?php if (isset($errorContentChapter)) { ?>
-            <div class="alert alert-danger" role="alert">
-                <?php echo $errorContentChapter; ?>
-            </div>
-            <?php   
-            }
-            ?>
-        </p>
-        <p>
-            <?php if (isset($success)) { ?>
-            <div class="alert alert-success" role="alert">
-                <?php echo $success; ?>
-            </div>
-            <?php   
-            }
-            ?>
-        </p>
+        ?>
+    </div>  
     </section>    
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

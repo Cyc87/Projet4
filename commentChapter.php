@@ -1,23 +1,22 @@
 <?php
-  try {
-    $bdd= new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
-} catch (Exception $e) {
-    die('Erreur : ' . $e->getMessage());
-}
+    try {
+        $bdd= new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
+    } catch (Exception $e) {
+        die('Erreur : ' . $e->getMessage());
+    }   
 
 
-$edit_chapter = htmlspecialchars($_GET['edit']);
+    $edit_chapter = htmlspecialchars($_GET['edit']);
 
-$chapter = $bdd->prepare('SELECT * FROM chapter WHERE id =?');
-$chapter->execute(array($edit_chapter));
+    $chapter = $bdd->prepare('SELECT * FROM chapter WHERE id =?');
+    $chapter->execute(array($edit_chapter));
     if ($chapter->rowCount() == 1) {
-            $chapter = $chapter->fetch();
-    } else {
-        $errorEdit = 'Le chapitre n\'existe pas';
+        $chapter = $chapter->fetch();
     }
-$commentChapter = $bdd->query ('SELECT id,pseudo, message_comment, DATE_FORMAT(date_heure, "%d/%m/%Y à %Hh%i") AS date_heure FROM comment WHERE id_article= '.$_GET['edit'].' ORDER BY ID DESC LIMIT 0, 5'); 
 
-    if(isset($_POST['submit'])){
+    $commentChapter = $bdd->query ('SELECT id,pseudo, message_comment, DATE_FORMAT(date_heure, "%d/%m/%Y à %Hh%i") AS date_heure FROM comment WHERE id_article= '.$_GET['edit'].' ORDER BY ID DESC LIMIT 0, 5'); 
+
+    if(isset($_POST['validate'])){
   
         if (isset($_POST['pseudo']) &&!empty($_POST['pseudo']) && isset($_POST['message']) &&!empty($_POST['message'])){
 
@@ -28,20 +27,17 @@ $commentChapter = $bdd->query ('SELECT id,pseudo, message_comment, DATE_FORMAT(d
             $req->execute(array($pseudo, $message,$_GET['edit'], $signalement));
   
             header('Location: commentChapter.php?edit=' . $_GET['edit']);
-        }var_dump($pseudo);
-        
+        }  
     }
+
     if(isset($_GET['signed'])){
-        
         $signalement = "1";
         $modifSigned_id = $_GET['edit'];
         $req = $bdd->prepare('UPDATE comment SET signalement= :signalement WHERE id_article = :id ');
         $req->execute(array(
             'signalement' => $signalement,
-            'id' => $modifSigned_id,  
-            
+            'id' => $modifSigned_id,    
         ));
-        
     }
 
 ?>
@@ -83,9 +79,9 @@ $commentChapter = $bdd->query ('SELECT id,pseudo, message_comment, DATE_FORMAT(d
 
                             <div class=" form-group row ">
                                 <label for="comment" class="col-sm-3 col-form-label"></label>
-                                <textarea id="comment" name="message" placeholder="Votre commentaire" class="form-control col-sm-6 "></textarea> 
+                                <textarea id="comment" name="message" placeholder="Votre commentaire (Pas plus de 250 caractères...)" class="form-control col-sm-6 "></textarea> 
                             </div>
-                            <button type="submit" name="submit" class="btn btn-info" style="margin-left:70%;margin-top:10px;">Valider</button>
+                            <button type="submit" name="validate" class="btn btn-info" style="margin-left:70%;margin-top:10px;">Valider</button>
                         </form>
                     </div>
                 </div>
@@ -98,10 +94,10 @@ $commentChapter = $bdd->query ('SELECT id,pseudo, message_comment, DATE_FORMAT(d
                 <div class="card text-white bg-info mb-3" style="max-width: 18rem;  margin: auto; margin-top:100px;">
                     <div class="card-header"><?= $data['pseudo'] ?></div>
                         <div class="card-body">
-                            <h5 class="card-title">Le <?=$data['date_heure']?></h5>
-                            <p class="card-text"><?=$data['message_comment'] ?></p>
+                            <h5 class="card-title">Le <?= $data['date_heure'] ?></h5>
+                            <p class="card-text"><?= $data['message_comment'] ?></p>
                         </div>
-                            <a href="commentChapter.php?edit=<?= $_GET['edit'] ?>&signed" name="report" class="btn btn-outline-danger btn-sm" style="color:white">Signaler</a>
+                            <a href="commentChapter.php?edit=<?= $_GET['edit'] ?>&signed=<?=$data['id'] ?>" name="report" class="btn btn-outline-danger btn-sm" style="color:white">Signaler</a>
                   
                 </div>
                 <?php

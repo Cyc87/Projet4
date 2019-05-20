@@ -28,7 +28,8 @@ if(empty($_GET['edit'])){
         if ($edit_chapter->rowCount() == 1) {
             $edit_chapter = $edit_chapter->fetch();
         } else {
-            $errorEdit = 'Le chapitre n\'existe pas';
+            $_SESSION['message'] = "Le chapitre n\'existe pas";
+            $_SESSION['msg_type'] = "danger";
         }
     }
     if (isset($_POST['modif'])) {
@@ -49,7 +50,8 @@ if(empty($_GET['edit'])){
             
         ));
         
-        $success = "Votre chapitre a été modifié avec succés !";
+        $_SESSION['message'] = "Votre chapitre a été modifié avec succés !";
+        $_SESSION['msg_type'] = "success";
         header('location: modificationChapter.php');
         exit();
     }
@@ -104,12 +106,13 @@ if(empty($_GET['edit'])){
             </div>
         </section>
         <section id="modification_chapter">
+            <div id="crossCreateChapter">
+                <a href="admin.php">
+                    <input id="imgModificationChapter" type="image" alt="image" src="images/croix.png">
+                </a>
+            </div>
             <form action="modificationChapter.php?edit=<?= $_GET['edit'] ?>" method="post">
-                <div id="crossCreateChapter">
-                    <a href="admin.php">
-                        <input id="imgModificationChapter" type="image" alt="image" src="images/croix.png">
-                    </a>
-                </div>
+                
                 <div class="form-group">
                     <label id="chapter" style="color:white">Chapitre : </label>
                     <input type="text" name="numero_chapitre" id="numero_chapitre" class="form-control" placeholder="Chapitre X" value="<?= $edit_chapter['numberChapter']?> " >
@@ -126,36 +129,19 @@ if(empty($_GET['edit'])){
                 <button name="modif" type="submit" class="btn btn-warning"><a style="color:white">Modifier / Sauvegarder</a></button>
             
             </form>
+            <?php
+                if(isset($_SESSION['message'])){
+            ?>
+                <div class="alert alert-<?=$_SESSION['msg_type'] ?>" style="top:-122px">
+            <?php
+                echo $_SESSION['message'];
+                unset($_SESSION['message']);
+                }
+            ?>
         </section>
+        
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-        <p>
-            <?php if (isset($errorEdit)) { ?>
-            <div class="alert alert-danger" role="alert">
-                <?php echo $errorEdit; ?>
-            </div>
-            <?php   
-            }
-            ?>
-        </p>
-        <p>
-            <?php if (isset($errorDataSearch)) { ?>
-            <div class="alert alert-danger" role="alert">
-                <?php echo $errorDataSearch; ?>
-            </div>
-            <?php   
-            }
-            ?>
-        </p>
-        <p>
-            <?php if (isset($success)) { ?>
-            <div class="alert alert-danger" role="alert">
-                <?php echo $success; ?>
-            </div>
-            <?php   
-            }
-            ?>
-        </p>
     </body>
 </html>

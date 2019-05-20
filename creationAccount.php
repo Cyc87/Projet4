@@ -1,5 +1,6 @@
 <?php
     session_start();
+
     if(!isset($_SESSION['user']))
     {
         header('Location: admin.php');
@@ -23,16 +24,19 @@
 
         if (empty($name) || empty($pseudo) || empty($password1) || empty($password2) || empty($mail))
         {
-            $errorfields = "Tous les champs sont obligatoires ";
+            $_SESSION['message'] = "Tous les champs sont obligatoires ";
+            $_SESSION['msg_type'] = "danger";
             $validation = false;
         }
         if (strlen($name) > 30) {
-            $errorContentName = "Votre nom doit faire moins de 30 caractères";
+            $_SESSION['message'] = "Votre nom doit faire moins de 30 caractères";
+            $_SESSION['msg_type'] = "danger";
             $validation = false;
         }
-        if(strlen($pseudo) < 3 && strlen($pseudo) >= 20)
+        if(strlen($pseudo) <= 3 && strlen($pseudo) >= 20)
         {
-            $errorContentPseudo = "Votre pseudo doit être compris entre 3 et 20 caractères";
+            $_SESSION['message'] = "Votre pseudo doit être compris entre 3 et 20 caractères";
+            $_SESSION['msg_type'] = "danger";
             $validation = false; 
         }
         if(!empty($_POST['pseudo']))
@@ -44,16 +48,19 @@
             $data = $req->fetch(PDO::FETCH_ASSOC);
             if ($data == true)
             {
-                $errorPseudo = "Pseudo déjà existant";
+                $_SESSION['message'] = "Pseudo déjà existant";
+                $_SESSION['msg_type'] = "danger";
                 $validation = false;
             }
         }
         if (strlen($password1) < 8 && strlen($password1) >= 255) {
-            $errorPassword = "Votre mot de passe doit être compris entre 8 et 255 caractères";
+            $_SESSION['message'] = "Votre mot de passe doit être compris entre 8 et 255 caractères";
+            $_SESSION['msg_type'] = "danger";
             $validation = false;
         }
         if ($password1 != $password2) {
-            $errorPasswordDifferent = "Mots de passe différents";
+            $_SESSION['message'] = "Mots de passe différents";
+            $_SESSION['msg_type'] = "danger";
             $validation = false;
         }
         if(!empty($_POST['mail']))
@@ -65,7 +72,8 @@
             $data = $req->fetch(PDO::FETCH_ASSOC);
             if($data == true)
             {
-                $errorMail = "Mail déjà existant";
+                $_SESSION['message'] = "Mail déjà existant";
+                $_SESSION['msg_type'] ="danger";
                 $validation = false;
             }
         }
@@ -80,7 +88,8 @@
                 $password1,
                 $mail
             ));
-            $success = "Votre compte a été crée avec succés !";
+            $_SESSION['message'] = "Votre compte a été crée avec succés !";
+            $_SESSION['msg_type'] = "success";
             header('Location: admin.php');
             exit();
         }
@@ -144,78 +153,14 @@
             </div>
             <button type="submit" class="btn btn-primary">Créer compte</button>
         </form>
-        <p>
-            <?php if (isset($errorfields)) { ?>
-            <div class="alert alert-danger" role="alert">
-                <?php echo $errorfields; ?>
-            </div>
-            <?php   
+        <?php
+            if(isset($_SESSION['message'])){ ?>
+                <div class="alert alert-<?=$_SESSION['msg_type'] ?>">
+            <?php
+            echo $_SESSION['message'];
+            unset($_SESSION['message']);
             }
-            ?>
-        </p>
-        <p>
-            <?php if (isset($errorContentName)) { ?>
-            <div class="alert alert-danger" role="alert">
-                <?php echo $errorContentName; ?>
-            </div>
-            <?php   
-            }
-            ?>
-        </p>
-        <p>
-            <?php if (isset($errorContentPseudo)) { ?>
-            <div class="alert alert-danger" role="alert">
-                <?php echo $errorContentPseudo; ?>
-            </div>
-            <?php   
-            }
-            ?>
-        </p>
-        <p>
-            <?php if (isset($errorPseudo)) { ?>
-            <div class="alert alert-danger" role="alert">
-                <?php echo $errorPseudo; ?>
-            </div>
-            <?php   
-            }
-            ?>
-        </p>
-        <p>
-            <?php if (isset($errorPassword)) { ?>
-            <div class="alert alert-danger" role="alert">
-                <?php echo $errorPassword; ?>
-            </div>
-            <?php   
-            }
-            ?>
-        </p>
-        <p>
-            <?php if (isset($errorPasswordDifferent)) { ?>
-            <div class="alert alert-danger" role="alert">
-                <?php echo $errorPasswordDifferent; ?>
-            </div>
-            <?php   
-            }
-            ?>
-        </p>
-        <p>
-            <?php if (isset($errorMail)) { ?>
-            <div class="alert alert-danger" role="alert">
-                <?php echo $errorMail; ?>
-            </div>
-            <?php   
-            }
-            ?>
-        </p>
-        <p>
-            <?php if (isset($success)) { ?>
-            <div class="alert alert-success" role="alert">
-                <?php echo $success; ?>
-            </div>
-            <?php   
-            }
-            ?>
-        </p>
+        ?>
     </section>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
