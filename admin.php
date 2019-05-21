@@ -74,7 +74,7 @@
                 while ($c = $commentSigned->fetch()) {
             ?>
             <div id="cardText" class="card text-white bg-info" style="width: 500px;height:350px;top:100px;margin-top:20px">
-                <div class="card-header" style="color:black"><p><?= $c['pseudo'] ?> a commenté le chapitre <?= $c['id_article'] ?></p></div>
+                <div class="card-header" style="color:black"><p><?= $c['pseudo'] ?> a commenté : </p></div>
                     <div class="card-body">
                         <h5 class="card-title" style="color:black"><?= $c['message_comment'] ?></h5>
                     </div>

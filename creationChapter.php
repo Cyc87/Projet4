@@ -59,7 +59,7 @@
                 $title,
                 $content,
             ));
-            $success = "Votre chapitre a été crée avec succés !";
+            $_SESSION['message']= "Votre chapitre a été crée avec succés !";
             $_SESSION['msg_type'] = "success";
             header('Location: admin.php');
             exit();
