@@ -1,6 +1,9 @@
 <?php
     session_start();
 
+    require "Account.php";
+    require "AccountManager.php";
+
     if(!isset($_SESSION['user']))
     {
         header('Location: admin.php');
@@ -8,11 +11,11 @@
     }
     if (!empty($_POST))
     {
-        try {
-            $bdd = new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
-        } catch (Exception $e) {
-            die('Erreur : ' . $e->getMessage());
-        }
+        // try {
+        //     $bdd = new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
+        // } catch (Exception $e) {
+        //     die('Erreur : ' . $e->getMessage());
+        // }
     
 
         $name = trim(htmlspecialchars($_POST['nom']));
@@ -33,7 +36,7 @@
             $_SESSION['msg_type'] = "danger";
             $validation = false;
         }
-        if(strlen($pseudo) <= 3 && strlen($pseudo) >= 20)
+        if(strlen($pseudo) < 3 && strlen($pseudo) >= 20)
         {
             $_SESSION['message'] = "Votre pseudo doit être compris entre 3 et 20 caractères";
             $_SESSION['msg_type'] = "danger";
@@ -41,11 +44,14 @@
         }
         if(!empty($_POST['pseudo']))
         {
-            $req = $bdd->prepare("SELECT * FROM `users` WHERE pseudo = :pseudo");
-            $req->execute(array(
-                "pseudo" => $pseudo
-            ));
-            $data = $req->fetch(PDO::FETCH_ASSOC);
+            // $req = $bdd->prepare("SELECT * FROM `users` WHERE pseudo = :pseudo");
+            // $req->execute(array(
+            //     "pseudo" => $pseudo
+            // ));
+            // $data = $req->fetch(PDO::FETCH_ASSOC);
+            $accountManager = new AccountManager();       
+            $data = $accountManager->getByPseudo($pseudo);
+
             if ($data == true)
             {
                 $_SESSION['message'] = "Pseudo déjà existant";
@@ -65,11 +71,15 @@
         }
         if(!empty($_POST['mail']))
         {
-            $req = $bdd->prepare('SELECT * FROM users WHERE mail = :mail');
-            $req->execute(array(
-                "mail" => $mail
-            ));
-            $data = $req->fetch(PDO::FETCH_ASSOC);
+            // $req = $bdd->prepare('SELECT * FROM users WHERE mail = :mail');
+            // $req->execute(array(
+            //     "mail" => $mail
+            // ));
+            // $data = $req->fetch(PDO::FETCH_ASSOC);
+
+            $accountManager = new AccountManager();       
+            $data = $accountManager->getByMail($mail);
+            
             if($data == true)
             {
                 $_SESSION['message'] = "Mail déjà existant";
@@ -81,13 +91,22 @@
         {
             $password1 = password_hash($password1, PASSWORD_DEFAULT);
 
-            $req = $bdd->prepare("INSERT INTO users(username, pseudo, password1, mail) VALUES (?,?,?,?)");
-            $req->execute(array(
-                $name,
-                $pseudo,
-                $password1,
-                $mail
-            ));
+            // $req = $bdd->prepare("INSERT INTO users(username, pseudo, password1, mail) VALUES (?,?,?,?)");
+            // $req->execute(array(
+            //     $name,
+            //     $pseudo,
+            //     $password1,
+            //     $mail
+            // ));
+            
+            $users = new AccountCreation([
+                "username" => $name,
+                "pseudo" => $pseudo,
+                "password1" => $password1,
+                "mail" => $mail
+            ]);
+            $accountManager->addAccountCreation($users);
+
             $_SESSION['message'] = "Votre compte a été crée avec succés !";
             $_SESSION['msg_type'] = "success";
             header('Location: admin.php');
