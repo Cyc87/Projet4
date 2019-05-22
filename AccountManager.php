@@ -26,6 +26,14 @@
             $data = $req ->fetch(PDO::FETCH_ASSOC);
             return $data;
         }
+        public function getByUsername($name){
+            $req = $this->_db->prepare("SELECT * FROM `users` WHERE username = :username");
+            $req->execute(array(
+                "username" => $_POST['usernameAdmin']
+            ));
+            $data = $req ->fetch(PDO::FETCH_ASSOC);
+            return $data;
+        }
         public function addAccountCreation(AccountCreation $users){
             $req = $this->_db->prepare("INSERT INTO users(username, pseudo, password1, mail, creation_date) VALUES (?,?,?,?,NOW())");
             $req->execute(array(

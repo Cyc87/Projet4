@@ -1,36 +1,43 @@
 <?php
+
 session_start();
+
+    require "Account.php";
+    require "AccountManager.php";    
 
 if (isset($_SESSION['user'])) {
     header('Location: admin.php');
     exit();
 }
 if (!empty($_POST)) {
-    try {
-        $bdd = new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
-    } catch (Exception $e) {
-        die('Erreur : ' . $e->getMessage());
-    }
+    // try {
+    //     $bdd = new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
+    // } catch (Exception $e) {
+    //     die('Erreur : ' . $e->getMessage());
+    // }
 
-    $req = $bdd->prepare("SELECT * FROM `users` WHERE username = :username");
+    // $req = $bdd->prepare("SELECT * FROM `users` WHERE username = :username");
 
-    $req->execute(array(
-        "username" => $_POST['usernameAdmin']
-    ));
+    // $req->execute(array(
+    //     "username" => $_POST['usernameAdmin']
+    // ));
 
-    $data = $req->fetch(PDO::FETCH_ASSOC);
-
-    if ($data) 
-    {  
-        if (password_verify($_POST['password'], $data['password1']))  {
+    // $data = $req->fetch(PDO::FETCH_ASSOC);
+        $accountManager = new AccountManager();       
+        $data = $accountManager->getByUserName($name);
+    
+    if ($data) {  
+        if (password_verify($_POST['password'], $data['password1'])){
             $_SESSION['user'] = $data['id'];
             header('Location: admin.php');
             exit();
         } else {
-            $errorPassword = 'Votre mot de passe est invalide';
+            $_SESSION['message'] = "Votre mot de passe est invalide";
+            $_SESSION['msg_type'] = "danger";
         }
     } else {
-        $errorUsername = 'Votre login est invalide';
+        $_SESSION['message'] = "Votre login est invalide";
+        $_SESSION['msg_type'] = "danger";
     }
 }
 ?>
@@ -67,24 +74,15 @@ if (!empty($_POST)) {
             </div>
             <button type="submit" class="btn btn-primary">Connection</button>
         </form>
-        <p>
-            <?php if (isset($errorUsername)) { ?>
-            <div class="alert alert-danger" role="alert">
-                <?php echo $errorUsername; ?>
-            </div>
-            <?php   
+        <?php
+            if(isset($_SESSION['message'])){
+        ?>
+            <div class="alert alert-<?=$_SESSION['msg_type'] ?>" style="top:62px">
+        <?php
+            echo $_SESSION['message'];
+            unset($_SESSION['message']);
             }
-            ?>
-        </p>
-        <p>
-            <?php if (isset($errorPassword)) { ?>
-            <div class="alert alert-danger" role="alert">
-                <?php echo $errorPassword; ?>
-            </div>
-            <?php   
-            }
-            ?>
-        </p> 
+        ?>
     </section>
 
 </body>
