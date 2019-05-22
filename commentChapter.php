@@ -32,8 +32,8 @@
 
     if(isset($_GET['signed'])){
         $signalement = "1";
-        $modifSigned_id = $_GET['edit'];
-        $req = $bdd->prepare('UPDATE comment SET signalement= :signalement WHERE id_article = :id ');
+        $modifSigned_id = $_GET['signed'];
+        $req = $bdd->prepare('UPDATE comment SET signalement= :signalement WHERE id = :id ');
         $req->execute(array(
             'signalement' => $signalement,
             'id' => $modifSigned_id,    
