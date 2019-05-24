@@ -1,5 +1,10 @@
 <?php
     session_start();
+
+    require "Chapter.php";
+    require "ChapterManager.php";
+
+
     if(!isset($_SESSION['user']))
     {
         header('Location: admin.php');
@@ -7,17 +12,17 @@
     }
     if(!empty($_POST))
     {
-        try {
-            $bdd = new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
-        } catch (Exception $e) {
-            die('Erreur : ' . $e->getMessage());
-        }
-        $number=trim(htmlspecialchars($_POST['numberChapter']));
-        $title=trim(htmlspecialchars($_POST['titleChapter']));
-        $content=trim($_POST['contentChapter']);
+        // try {
+        //     $bdd = new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
+        // } catch (Exception $e) {
+        //     die('Erreur : ' . $e->getMessage());
+        // }
+        $numberChapter=trim(htmlspecialchars($_POST['numberChapter']));
+        $titleChapter=trim(htmlspecialchars($_POST['titleChapter']));
+        $contentChapter=trim($_POST['contentChapter']);
         $validation = true;
 
-        if(empty($number) || empty($title) || empty($content))
+        if(empty($numberChapter) || empty($titleChapter) || empty($contentChapter))
         {
             $_SESSION['message'] = "Tous les champs sont obligatoires ";
             $_SESSION['msg_type'] = "danger";
@@ -25,11 +30,14 @@
         }
         if(!empty($_POST['numberChapter']))
         {
-            $req = $bdd->prepare("SELECT * FROM chapter WHERE numberChapter = :number");
-            $req->execute(array(
-                "number" => $number
-            ));
-            $data = $req->fetch(PDO::FETCH_ASSOC);
+            // $req = $bdd->prepare("SELECT * FROM chapter WHERE numberChapter = :number");
+            // $req->execute(array(
+            //     "number" => $number
+            // ));
+            // $data = $req->fetch(PDO::FETCH_ASSOC);
+            $chapterManager = new ChapterManager();       
+            $data = $chapterManager->getByNumberChapter($numberChapter);
+
             if ($data == true)
             {
                 $_SESSION['message'] = "Numéro de chapitre déjà existant";
@@ -39,11 +47,13 @@
         }
         if(!empty($_POST['titleChapter']))
         {
-            $req = $bdd->prepare("SELECT * FROM chapter WHERE titleChapter = :title");
-            $req->execute(array(
-                "title" => $title
-            ));
-            $data = $req->fetch(PDO::FETCH_ASSOC);
+            // $req = $bdd->prepare("SELECT * FROM chapter WHERE titleChapter = :title");
+            // $req->execute(array(
+            //     "title" => $title
+            // ));
+            // $data = $req->fetch(PDO::FETCH_ASSOC);
+            $chapterManager = new ChapterManager();
+            $data = $chapterManager->getByTitleChapter($titleChapter);
             if ($data == true)
             {
                 $_SESSION['message'] = "Titre de chapitre déjà existant";
@@ -53,12 +63,18 @@
         }
         if($validation == true)
         {
-            $req = $bdd->prepare("INSERT INTO chapter(numberChapter, titleChapter, contentChapter) VALUES (?,?,?)");
-            $req->execute(array(
-                $number,
-                $title,
-                $content,
-            ));
+            // $req = $bdd->prepare("INSERT INTO chapter(numberChapter, titleChapter, contentChapter) VALUES (?,?,?)");
+            // $req->execute(array(
+            //     $number,
+            //     $title,
+            //     $content,
+            // ));
+            $chapter = new ChapterCreation([
+                "numberChapter" => $numberChapter,
+                "titleChapter" => $titleChapter,
+                "contentChapter" => $contentChapter,
+            ]);
+            $chapterManager->addChapterCreation($chapter);
             $_SESSION['message']= "Votre chapitre a été crée avec succés !";
             $_SESSION['msg_type'] = "success";
             header('Location: admin.php');
@@ -104,14 +120,14 @@
         <form action="creationChapter.php" method="post" id="creationChapter">
             <div class="form-group">
                 <label id="chapter">Chapitre : </label>
-                <input type="text" name="numberChapter" style="text-transform: capitalize;" id="numberChapterId" class="form-control" placeholder="Chapitre X" value="<?php if (isset($number)) {
-                                                                                                                                        echo $number;
+                <input type="text" name="numberChapter" style="text-transform: capitalize;" id="numberChapterId" class="form-control" placeholder="Chapitre X" value="<?php if (isset($numberChapter)) {
+                                                                                                                                        echo $numberChapter;
                                                                                                                                     } ?>">
             </div>
             <div class="form-group">
                 <label id="titleChapterId">Titre :</label>
-                <input type="text" name="titleChapter" id="titleChapter" style="text-transform: capitalize;" class="form-control" placeholder="Titre" value="<?php if (isset($title)) {
-                                                                                                                                    echo $title;
+                <input type="text" name="titleChapter" id="titleChapter" style="text-transform: capitalize;" class="form-control" placeholder="Titre" value="<?php if (isset($titleChapter)) {
+                                                                                                                                    echo $titleChapter;
                                                                                                                                 } ?>">
             </div>
             <div class="form-group">
