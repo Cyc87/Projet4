@@ -1,5 +1,8 @@
 <?php
-session_start();
+
+    session_start();
+    require "Chapter.php";
+    require "ChapterManager.php";
 
     if (!isset($_SESSION['user'])) {
         header('Location: admin.php');
@@ -15,17 +18,21 @@ session_start();
 
 
     if (isset($_GET['id']) && !empty($_GET['id'])) {
-        
+
         $suppr_id = htmlspecialchars($_GET['id']);
-        $supprChapter = $bdd->prepare('DELETE FROM chapter WHERE id = ?');
+        // $supprChapter = $bdd->prepare('DELETE FROM chapter WHERE id = ?');
+        // $supprChapter->execute(array($suppr_id));
+
         $supprComment = $bdd->prepare('DELETE From comment WHERE id_article = ?');
-        $supprChapter->execute(array($suppr_id));
         $supprComment->execute(array($suppr_id));
 
-        $_SESSION['message'] = "Chapitre bien supprimé ! ";
+        $deletechapter = new ChapterManager();
+        $deletechapter->deletechapter($suppr_id);
+        
+        $_SESSION['message'] = "Le chapitre est bien supprimé ! ";
         $_SESSION['msg_type'] = "success";
 
-        header('Location:deleteChapter.php');
+        header('Location:admin.php');
         exit();
     
     }
