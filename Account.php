@@ -8,7 +8,8 @@
         private $_password1;
         private $_mail;
         private $_creationDate;
-    
+        
+
         public function __construct(Array $data){
         $this->hydrate($data);
         }
