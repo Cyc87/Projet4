@@ -1,5 +1,8 @@
 <?php
-session_start();
+
+    session_start();
+    require "Chapter.php";
+    require "ChapterManager.php";
 
 if (!isset($_SESSION['user'])) {
     header('Location: admin.php');
@@ -50,6 +53,7 @@ if(empty($_GET['edit'])){
             
         ));
         
+
         $_SESSION['message'] = "Votre chapitre a été modifié avec succés !";
         $_SESSION['msg_type'] = "success";
         header('location: modificationChapter.php');
