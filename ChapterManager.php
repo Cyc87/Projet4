@@ -43,10 +43,18 @@
                 $chapter->contentChapter(),
             ));
         }
-        public function deleteChapterCreation(ChapterCreation $chapter){
-            $req = $this->_db->prepare("DELETE FROM chapter WHERE id = :id");
+        public function deleteChapter($id){
+            $req = $this->_db->prepare("DELETE FROM chapter WHERE id = ?");
             $req->execute(array(
-                $chapter->id(),
+                $id,
+            )); 
+        }
+        public function modifChapterCreation(ChapterCreation $chapter){
+            $req = $this->_db->prepare("UPDATE chapter SET numberChapter= :numberChapter, titleChapter= :titleChapter, contentChapter= :contentChapter  WHERE id = :id");
+            $req->execute(array(
+                $chapter->numberChapter(),
+                $chapter->titleChapter(),
+                $chapter->contentChapter(),
             ));
         }
     }
