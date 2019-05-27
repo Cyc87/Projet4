@@ -36,9 +36,9 @@
             $_SESSION['msg_type'] = "danger";
             $validation = false;
         }
-        if(strlen($pseudo) < 3 && strlen($pseudo) >= 20)
+        if(strlen($pseudo) < 5 && strlen($pseudo) > 20)
         {
-            $_SESSION['message'] = "Votre pseudo doit être compris entre 3 et 20 caractères";
+            $_SESSION['message'] = "Votre pseudo doit être compris entre 5 et 20 caractères";
             $_SESSION['msg_type'] = "danger";
             $validation = false; 
         }
@@ -59,8 +59,8 @@
                 $validation = false;
             }
         }
-        if (strlen($password1) < 8 && strlen($password1) >= 255) {
-            $_SESSION['message'] = "Votre mot de passe doit être compris entre 8 et 255 caractères";
+        if (strlen($password1) < 8 && strlen($password1) >= 25) {
+            $_SESSION['message'] = "Votre mot de passe doit être compris entre 8 et 25 caractères";
             $_SESSION['msg_type'] = "danger";
             $validation = false;
         }
