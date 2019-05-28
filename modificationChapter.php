@@ -14,7 +14,7 @@ try {
     die('Erreur : ' . $e->getMessage());
 }
 
-$chapter = $bdd->query('SELECT * FROM chapter ORDER BY dateCreationChapter DESC ');
+$chapter = $bdd->query('SELECT * FROM chapter ORDER BY dateCreationChapter DESC');
 
 $edit_chapter['numberChapter'] = '';
 $edit_chapter['titleChapter'] = '';

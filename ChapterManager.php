@@ -49,12 +49,13 @@
                 $id,
             )); 
         }
-        public function modifChapterCreation(ChapterCreation $chapter){
+        public function updateChapter(){
             $req = $this->_db->prepare("UPDATE chapter SET numberChapter= :numberChapter, titleChapter= :titleChapter, contentChapter= :contentChapter  WHERE id = :id");
             $req->execute(array(
-                $chapter->numberChapter(),
-                $chapter->titleChapter(),
-                $chapter->contentChapter(),
+                'numberChapter' => $number,
+                'titleChapter' => $title,
+                'contentChapter' => $contenu,
+                'id' => $modif_id,  
             ));
         }
     }
