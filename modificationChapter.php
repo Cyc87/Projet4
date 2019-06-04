@@ -4,62 +4,76 @@
     require "Chapter.php";
     require "ChapterManager.php";
 
-if (!isset($_SESSION['user'])) {
-    header('Location: admin.php');
-    exit();
-}
-try {
-    $bdd= new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
-} catch (Exception $e) {
-    die('Erreur : ' . $e->getMessage());
-}
-
-$chapter = $bdd->query('SELECT * FROM chapter ORDER BY dateCreationChapter DESC');
-
-$edit_chapter['numberChapter'] = '';
-$edit_chapter['titleChapter'] = '';
-$edit_chapter['contentChapter'] = '';
- 
-if(empty($_GET['edit'])){
-    $_GET['edit']= '';
-}else{
-    if (isset($_GET['edit']) && !empty($_GET['edit'])) {
-        
-        $edit_id = htmlspecialchars($_GET['edit']);
-        $edit_chapter = $bdd->prepare('SELECT * FROM chapter WHERE id = ?');
-        $edit_chapter->execute(array($edit_id));
-        if ($edit_chapter->rowCount() == 1) {
-            $edit_chapter = $edit_chapter->fetch();
-        } else {
-            $_SESSION['message'] = "Le chapitre n\'existe pas";
-            $_SESSION['msg_type'] = "danger";
-        }
-    }
-    if (isset($_POST['modif'])) {
-    
-        $modif_id = htmlspecialchars($_GET['edit']);
-        $number = htmlspecialchars($_POST['numero_chapitre']);
-        $title = htmlspecialchars($_POST['titre_chapitre']);
-        $contenu = htmlspecialchars($_POST['contenu_chapitre']);
-        
-        
-        $modification = $bdd->prepare("UPDATE chapter SET numberChapter= :numberChapter, titleChapter= :titleChapter, contentChapter= :contentChapter  WHERE id = :id");
-        
-        $modification->execute(array(
-            'numberChapter' => $number,
-            'titleChapter' => $title,
-            'contentChapter' => $contenu,
-            'id' => $modif_id,  
-            
-        ));
-        
-
-        $_SESSION['message'] = "Votre chapitre a été modifié avec succés !";
-        $_SESSION['msg_type'] = "success";
-        header('location: modificationChapter.php');
+    if (!isset($_SESSION['user'])) {
+        header('Location: admin.php');
         exit();
     }
- }   
+    try {
+        $bdd= new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
+    } catch (Exception $e) {
+        die('Erreur : ' . $e->getMessage());
+    }
+
+    
+    $chapter = $bdd->query('SELECT * FROM chapter ORDER BY dateCreationChapter DESC');
+   
+    
+
+    $edit_chapter['numberChapter'] = '';
+    $edit_chapter['titleChapter'] = '';
+    $edit_chapter['contentChapter'] = '';
+    
+    if(empty($_GET['edit'])){
+        $_GET['edit']= '';
+    }else{
+        if (isset($_GET['edit']) && !empty($_GET['edit'])) {
+            
+            $edit_id = htmlspecialchars($_GET['edit']);
+            $edit_chapter = $bdd->prepare('SELECT * FROM chapter WHERE id = ?');
+            $edit_chapter->execute(array($edit_id));
+
+            if ($edit_chapter->rowCount() == 1) {
+                $edit_chapter = $edit_chapter->fetch();
+            } else {
+                $_SESSION['message'] = "Le chapitre n\'existe pas";
+                $_SESSION['msg_type'] = "danger";
+            }
+        }
+        if (isset($_POST['modif'])) {
+        
+            $modif_id = htmlspecialchars($_GET['edit']);
+            $number = htmlspecialchars($_POST['numero_chapitre']);
+            $title = htmlspecialchars($_POST['titre_chapitre']);
+            $contenu = htmlspecialchars($_POST['contenu_chapitre']);
+            
+            
+            // $modification = $bdd->prepare("UPDATE chapter SET numberChapter= :numberChapter, titleChapter= :titleChapter, contentChapter= :contentChapter  WHERE id = :id");
+            
+            // $modification->execute(array(
+            //     'numberChapter' => $number,
+            //     'titleChapter' => $title,
+            //     'contentChapter' => $contenu,
+            //     'id' => $modif_id,  
+                
+            // ));
+
+            $chapterManager = new ChapterManager();
+            
+            $chapterUpdate = new ChapterCreation([
+                'numberChapter' => $number,
+                'titleChapter' => $title,
+                'contentChapter' => $contenu,
+                'id' => $modif_id,  
+                ]);
+           
+            $chapterManager->updateChapter($chapterUpdate);
+
+            $_SESSION['message'] = "Votre chapitre a été modifié avec succés !";
+            $_SESSION['msg_type'] = "success";
+            header('location: modificationChapter.php');
+            exit();
+        }
+    }   
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -86,7 +100,7 @@ if(empty($_GET['edit'])){
     </head>
     <body>
         <?php
-            include('menuAdmin.php');
+            // include('menuAdmin.php');
         ?>
         <h1 id="titreModification" style="padding-top:90px;text-align:center;"><span class="badge badge-warning">MODIFICATION CHAPITRES</span></h1>
         <section id="modificationChapters" style="margin:auto;width:100%;margin-top: -50px;">

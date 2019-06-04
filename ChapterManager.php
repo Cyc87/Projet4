@@ -42,22 +42,30 @@
                 $chapter->titleChapter(),
                 $chapter->contentChapter(),
             ));
+            $data = $req ->fetch(PDO::FETCH_ASSOC);
+            return $data;
         }
         public function deleteChapter($id){
+           
             $req = $this->_db->prepare("DELETE FROM chapter WHERE id = ?");
             $req->execute(array(
                 $id,
-            )); 
-        }
-        public function updateChapter(){
-            $req = $this->_db->prepare("UPDATE chapter SET numberChapter= :numberChapter, titleChapter= :titleChapter, contentChapter= :contentChapter  WHERE id = :id");
-            $req->execute(array(
-                'numberChapter' => $number,
-                'titleChapter' => $title,
-                'contentChapter' => $contenu,
-                'id' => $modif_id,  
             ));
         }
+        public function updateChapter(ChapterCreation $chapter){
+            
+            $req = $this->_db->prepare("UPDATE chapter SET numberChapter = :numberChapter, titleChapter = :titleChapter, contentChapter = :contentChapter  WHERE id = :id");
+            $req->execute(array(
+                "numberChapter" => $chapter->numberChapter(),
+                "titleChapter" => $chapter->titleChapter(),
+                "contentChapter" => $chapter->contentChapter(),
+                "id" => $chapter->id()
+            ));
+        }
+        public function readChapter(){
+            
+            $req = $this->_db->prepare("SELECT * FROM chapter ORDER BY dateCreationChapter DESC");
+            $req->execute(array());
+        }
     }
-
 ?>

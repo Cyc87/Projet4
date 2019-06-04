@@ -1,4 +1,9 @@
 <?php
+
+    require "Comment.php";
+    require "CommentManager.php";
+
+
     try {
         $bdd= new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
     } catch (Exception $e) {
@@ -14,18 +19,27 @@
         $chapter = $chapter->fetch();
     }
 
-    $commentChapter = $bdd->query ('SELECT id,pseudo, message_comment, DATE_FORMAT(date_heure, "%d/%m/%Y à %Hh%i") AS date_heure FROM comment WHERE id_article= '.$_GET['edit'].' ORDER BY ID DESC LIMIT 0, 5'); 
+    $commentChapter = $bdd->query ('SELECT id, pseudo, messageComment, DATE_FORMAT(dateTimeComment, "%d/%m/%Y à %Hh%i") AS dateTimeComment FROM comment WHERE idCommentChapter= '.$_GET['edit'].' ORDER BY ID DESC LIMIT 0, 5'); 
 
     if(isset($_POST['validate'])){
   
         if (isset($_POST['pseudo']) &&!empty($_POST['pseudo']) && isset($_POST['message']) &&!empty($_POST['message'])){
 
             $pseudo = htmlspecialchars($_POST['pseudo']);
-            $message = htmlspecialchars($_POST['message']);
+            $messageComment = htmlspecialchars($_POST['message']);
             $signalement = "0";
-            $req = $bdd->prepare('INSERT INTO comment (pseudo, message_comment, id_article ,signalement) VALUES(?, ?, ?, ?)');
-            $req->execute(array($pseudo, $message,$_GET['edit'], $signalement));
-  
+            // $req = $bdd->prepare('INSERT INTO comment (pseudo, messageComment, idCommentChapter ,signalement) VALUES(?, ?, ?, ?)');
+            // $req->execute(array($pseudo, $message,$_GET['edit'], $signalement));
+            
+            $commentManager = new CommentManager();
+            $comment = new CommentChapter([
+                "pseudo" => $pseudo,
+                "messageComment" => $messageComment,
+                "idCommentChapter" => $_GET['edit'],
+                "signalement" => $signalement,
+            ]);
+            $commentManager->addComment($comment);
+            
             header('Location: commentChapter.php?edit=' . $_GET['edit']);
         }  
     }
@@ -33,11 +47,18 @@
     if(isset($_GET['signed'])){
         $signalement = "1";
         $modifSigned_id = $_GET['signed'];
-        $req = $bdd->prepare('UPDATE comment SET signalement= :signalement WHERE id = :id ');
-        $req->execute(array(
+        // $req = $bdd->prepare('UPDATE comment SET signalement= :signalement WHERE id = :id ');
+        // $req->execute(array(
+        //     'signalement' => $signalement,
+        //     'id' => $modifSigned_id,    
+        // ));
+        $commentManager = new CommentManager();   
+        $comment = new CommentChapter([
             'signalement' => $signalement,
-            'id' => $modifSigned_id,    
-        ));
+            'id' => $modifSigned_id,  
+            ]);
+        
+        $commentManager->updateComment($comment);
     }
 
 ?>
@@ -94,8 +115,8 @@
                 <div class="card text-white bg-info mb-3" style="max-width: 18rem;  margin: auto; margin-top:100px;">
                     <div class="card-header"><?= $data['pseudo'] ?></div>
                         <div class="card-body">
-                            <h5 class="card-title">Le <?= $data['date_heure'] ?></h5>
-                            <p class="card-text"><?= $data['message_comment'] ?></p>
+                            <h5 class="card-title">Le <?= $data['dateTimeComment'] ?></h5>
+                            <p class="card-text"><?= $data['messageComment'] ?></p>
                         </div>
                             <a href="commentChapter.php?edit=<?= $_GET['edit'] ?>&signed=<?=$data['id'] ?>" name="report" class="btn btn-outline-danger btn-sm" style="color:white">Signaler</a>
                   

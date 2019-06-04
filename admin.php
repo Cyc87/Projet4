@@ -1,5 +1,8 @@
 <?php
 
+    require "Comment.php";
+    require "CommentManager.php";
+
     session_start();
 
     if (!isset($_SESSION['user'])) {
@@ -17,13 +20,17 @@
     $data = $req->fetch(PDO::FETCH_ASSOC);
 
     
-    $commentSigned = $bdd->query('SELECT * FROM comment WHERE signalement = "1" ');
+    $commentSigned = $bdd->query('SELECT id, pseudo, messageComment, DATE_FORMAT(dateTimeComment, "%d/%m/%Y à %Hh%i") AS dateTimeComment FROM comment WHERE signalement = "1" ');
     
     if(isset($_GET['supprSigned'])){
         $supprSigned = htmlspecialchars($_GET['edit']);
-        $supprComment = $bdd->prepare('DELETE FROM comment WHERE id = ?');
-       
-        $supprComment->execute(array($supprSigned));
+
+        // $supprComment = $bdd->prepare('DELETE FROM comment WHERE id = ?');
+        // $supprComment->execute(array($supprSigned));
+
+        $deleteComment = new CommentManager();
+        $deleteComment->deleteComment($supprSigned);
+
         $_SESSION['message'] = "Ce commentaire est bien supprimé! ";
         $_SESSION['msg_type'] = "danger";
         header('location: admin.php');
@@ -33,11 +40,20 @@
     if(isset($_GET['restoreSigned'])){
         $signalement = "0";
         $restoreSigned_id = ($_GET['edit']);
-        $req = $bdd->prepare('UPDATE comment SET signalement= :signalement WHERE id = :id ');
-        $req->execute(array(
+        // $req = $bdd->prepare('UPDATE comment SET signalement= :signalement WHERE id = :id ');
+        // $req->execute(array(
+        //     'signalement' => $signalement,
+        //     'id' => $restoreSigned_id,  
+        // ));
+
+        $commentManager = new CommentManager();   
+        $comment = new CommentChapter([
             'signalement' => $signalement,
             'id' => $restoreSigned_id,  
-        ));
+            ]);
+        
+        $commentManager->updateComment($comment);
+
         $_SESSION['message'] = "Ce commentaire est validé! ";
         $_SESSION['msg_type'] = "success";
         header('location: admin.php');
@@ -74,9 +90,9 @@
                 while ($c = $commentSigned->fetch()) {
             ?>
             <div id="cardText" class="card text-white bg-info" style="width: 500px;height:350px;top:100px;margin-top:20px">
-                <div class="card-header" style="color:black"><p><?= $c['pseudo'] ?> a commenté : </p></div>
+                <div class="card-header" style="color:black"><p><?= $c['pseudo'] ?> a commenté le  <?= $c['dateTimeComment'] ?></p></div>
                     <div class="card-body">
-                        <h5 class="card-title" style="color:black"><?= $c['message_comment'] ?></h5>
+                        <h5 class="card-title" style="color:black"><?= $c['messageComment'] ?></h5>
                     </div>
                     <a href="admin.php?edit=<?= $c['id'] ?>&supprSigned" class="btn btn-danger" >Supprimer</a>
                     <a href="admin.php?edit=<?= $c['id'] ?>&restoreSigned" class="btn btn-warning" >Ne pas en tenir compte</a>

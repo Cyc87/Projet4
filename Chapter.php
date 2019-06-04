@@ -4,8 +4,8 @@
         
         private $_id;
         private $_numberChapter;
-        private $_titleChater;
-        private $_contentChater;
+        private $_titleChapter;
+        private $_contentChapter;
         private $_dateCreationChapter;
 
         public function __construct(Array $data){

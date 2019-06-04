@@ -42,6 +42,10 @@
                 $users->password1(),
                 $users->mail(),
             ));
+            $data = $req ->fetch(PDO::FETCH_ASSOC);
+            return $data;
+            
         }
+        
     }
 ?>
