@@ -12,15 +12,17 @@
         header('Location: admin.php');
         exit();
     }
-    try {
-        $bdd = new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
-    } catch (Exception $e) {
-        die('Erreur : ' . $e->getMessage());
-    }
+    // try {
+    //     $bdd = new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
+    // } catch (Exception $e) {
+    //     die('Erreur : ' . $e->getMessage());
+    // }
 
-    $chapter = $bdd->query('SELECT * FROM chapter ORDER BY dateCreationChapter');
+    // $chapter = $bdd->query('SELECT * FROM chapter ORDER BY dateCreationChapter');
 
-
+    $chapterManager = new ChapterManager();       
+    $chapter = $chapterManager->readAllChapter();
+    
     if (isset($_GET['id']) && !empty($_GET['id'])) {
 
         $suppr_id = htmlspecialchars($_GET['id']);
@@ -35,6 +37,7 @@
 
         $deleteComment = new CommentManager();
         $deleteComment->deleteCommentSigned($suppr_id);
+        
         
         $_SESSION['message'] = "Le chapitre ainsi que les commentaires sont bien supprimés ! ";
         $_SESSION['msg_type'] = "success";
@@ -66,15 +69,15 @@
         <section id="suppression_chapitres" style="margin:auto;width:100%;padding-top:100px;">
             <div class="row col-12">
                 <?php
-                while ($c = $chapter->fetch()) {
+                foreach ($chapter as $chapter) {
                     ?>
                 <div id="suppresion_chapitre" class="card text-center" style="margin:0 auto;">
                     <div style="color:black;padding-bottom:10px;width:300px" class="card-header">
-                        <?= $c['numberChapter'] ?>
+                        <?= $chapter->numberChapter() ?>
                     </div>
                     <div class="card-body">
-                        <h5 style="color:black;" class="card-title"><?= $c['titleChapter'] ?></h5>
-                        <a href="deleteChapter.php?id=<?= $c['id'] ?>" class="btn btn-danger">Supprimer</a>
+                        <h5 style="color:black;" class="card-title"><?= $chapter->titleChapter() ?></h5>
+                        <a href="deleteChapter.php?id=<?= $chapter->id() ?>" class="btn btn-danger">Supprimer</a>
                     </div>
                 </div>
                 <?php
