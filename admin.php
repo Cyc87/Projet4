@@ -1,5 +1,8 @@
 <?php
 
+    require "Account.php";
+    require "AccountManager.php";
+
     require "Comment.php";
     require "CommentManager.php";
 
@@ -10,18 +13,25 @@
         exit();
     }
    
-    try {
-        $bdd = new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
-    } catch (Exception $e) {
-        die('Erreur : ' . $e->getMessage());
-    }
-    $req = $bdd->prepare("SELECT * FROM `users` WHERE id = :id");
-    $req->execute(array("id" => $_SESSION['user']));
-    $data = $req->fetch(PDO::FETCH_ASSOC);
+    // try {
+    //     $bdd = new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
+    // } catch (Exception $e) {
+    //     die('Erreur : ' . $e->getMessage());
+    // }
 
+    // $req = $bdd->prepare("SELECT * FROM `users` WHERE id = :id");
+    // $req->execute(array("id" => $_SESSION['user']));
+    // $data = $req->fetch(PDO::FETCH_ASSOC);
+
+    $accountManager = new AccountManager();       
+    $data = $accountManager->sessionUser($_SESSION['user']);
     
-    $commentSigned = $bdd->query('SELECT id, pseudo, messageComment, DATE_FORMAT(dateTimeComment, "%d/%m/%Y à %Hh%i") AS dateTimeComment FROM comment WHERE signalement = "1" ');
+    // $commentSigned = $bdd->query('SELECT id, pseudo, messageComment, DATE_FORMAT(dateTimeComment, "%d/%m/%Y à %Hh%i") AS dateTimeComment FROM comment WHERE signalement = "1" ');
+   
+    $commentManager = new CommentManager();       
+    $comment = $commentManager->readAllComment();
     
+
     if(isset($_GET['supprSigned'])){
         $supprSigned = htmlspecialchars($_GET['edit']);
 
@@ -40,6 +50,7 @@
     if(isset($_GET['restoreSigned'])){
         $signalement = "0";
         $restoreSigned_id = ($_GET['edit']);
+
         // $req = $bdd->prepare('UPDATE comment SET signalement= :signalement WHERE id = :id ');
         // $req->execute(array(
         //     'signalement' => $signalement,
@@ -87,21 +98,20 @@
     <section id="commentSigned">
         <div class="row col-12">
             <?php
-                while ($c = $commentSigned->fetch()) {
+                foreach($comment as $comment) {
             ?>
             <div id="cardText" class="card text-white bg-info" style="width: 500px;height:350px;top:100px;margin-top:20px">
-                <div class="card-header" style="color:black"><p><?= $c['pseudo'] ?> a commenté le  <?= $c['dateTimeComment'] ?></p></div>
+                <div class="card-header" style="color:black"><p><?= $comment->pseudo() ?> a commenté le  <?= $comment->dateTimeComment() ?></p></div>
                     <div class="card-body">
-                        <h5 class="card-title" style="color:black"><?= $c['messageComment'] ?></h5>
+                        <h5 class="card-title" style="color:black"><?= $comment->messageComment() ?></h5>
                     </div>
-                    <a href="admin.php?edit=<?= $c['id'] ?>&supprSigned" class="btn btn-danger" >Supprimer</a>
-                    <a href="admin.php?edit=<?= $c['id'] ?>&restoreSigned" class="btn btn-warning" >Ne pas en tenir compte</a>
+                    <a href="admin.php?edit=<?= $comment->id() ?>&supprSigned" class="btn btn-danger" >Supprimer</a>
+                    <a href="admin.php?edit=<?= $comment->id() ?>&restoreSigned" class="btn btn-warning" >Ne pas en tenir compte</a>
                 </div>
-                
-                <?php 
+            <?php
                 }
+            ?>
                 
-                ?>
             </div>
            
         </div>
