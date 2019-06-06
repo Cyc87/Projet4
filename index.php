@@ -1,12 +1,18 @@
 <?php
-    session_start();
-    try {
-        $bdd = new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
-    } catch (Exception $e) {
-        die('Erreur : ' . $e->getMessage());
-    }
-    $chapters = $bdd->query('SELECT * FROM `chapter` ORDER BY dateCreationChapter');
 
+    require "Chapter.php";
+    require "ChapterManager.php";
+    session_start();
+
+    // try {
+    //     $bdd = new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
+    // } catch (Exception $e) {
+    //     die('Erreur : ' . $e->getMessage());
+    // }
+    // $chapters = $bdd->query('SELECT * FROM `chapter` ORDER BY dateCreationChapter');
+    $chapterManager = new ChapterManager();       
+    $chapter = $chapterManager->readAllChapter();
+    
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -67,13 +73,13 @@
             <div class="row" id="index_Chapters">
                 <h1>CHAPITRES</h1>
                 <?php
-                    while ($c = $chapters->fetch()) {
+                    foreach ($chapter as $chapter) {
                 ?>
                 <div id="cardText" class="card text-white bg-light mb-3" style="width: 300px;">
-                    <div class="card-header" style="color:black"><?= $c['numberChapter'] ?></div>
+                    <div class="card-header" style="color:black"><?= $chapter->numberChapter() ?></div>
                     <div class="card-body">
-                        <h5 class="card-title" style="color:black"><?= $c['titleChapter'] ?></h5>
-                        <a  href="commentChapter.php?edit=<?= $c['id'] ?>" style="color:white;text-decoration:none;"class="btn btn-dark">Voir plus...</a>
+                        <h5 class="card-title" style="color:black"><?= $chapter->titleChapter() ?></h5>
+                        <a  href="commentChapter.php?edit=<?= $chapter->id() ?>" style="color:white;text-decoration:none;"class="btn btn-dark">Voir plus...</a>
                     </div>
                 </div>
                 <?php 
