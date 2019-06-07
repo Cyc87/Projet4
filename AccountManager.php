@@ -46,6 +46,13 @@
             return $data;
             
         }
-        
+        public function sessionUser($id){
+            $req = $this->_db->prepare("SELECT * FROM `users` WHERE id = :id");
+            $req->execute(array(
+                "id" => $id
+            ));
+            $data = $req ->fetch(PDO::FETCH_ASSOC);
+            return $data;
+        }
     }
 ?>

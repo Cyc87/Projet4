@@ -10,14 +10,14 @@ header{
   font-size: 20px;
 }
                               /*/////////////////////////*/
-                              /*   IMAGE BILLET SIMPLE   */
-                              /*    POUR L'ALASKA        */
+                              /*   IMAGE SINGLE TICKET   */
+                              /*       FOR ALASKA        */
                               /*/////////////////////////*/
 .img-fluid {
   width: 100%;
 }
                               /*/////////////////////////*/
-                              /*  PRESENTATION ECRIVAIN  */
+                              /*  PRESENTATION WRITER    */
                               /*/////////////////////////*/
 #about{
   background-color: #212743;
@@ -47,7 +47,7 @@ header{
   font-size: 18px;
 }
                                 /*/////////////////////////*/
-                                /*    CARTE CHAPITRES      */
+                                /*    CARD CHAPTERS        */
                                 /*/////////////////////////*/
 #chaptersElement{
   background-color: #ad8003;
@@ -65,7 +65,7 @@ header{
   margin: auto;
 }
                                 /*/////////////////////////*/
-                                /*    ADMIN ET PASSWORD    */
+                                /*    ADMIN AND PASSWORD    */
                                 /*/////////////////////////*/
 #administration {
   width: 100%;
@@ -92,7 +92,7 @@ header{
 
 
                                 /*///////////////////////////////*/
-                                /*      CREATION D'UN COMPTE     */
+                                /*      CREATION ACCOUNT         */
                                 /*///////////////////////////////*/
 
                               
@@ -136,7 +136,7 @@ header{
 }
 
                                       /*////////////////////////*/
-                                      /*  CREATION CHAPITRES    */
+                                      /*  CREATION CHAPTERS     */
                                       /*////////////////////////*/
                        
 #chapters{
@@ -177,7 +177,7 @@ header{
   right: -2.4%;
 }
                                   /*////////////////////////*/
-                                  /* MODIFICATION CHAPITRES */
+                                  /* MODIFICATION CHAPTERS  */
                                   /*////////////////////////*/
 #modificationChapters {
   padding-top: 110px;
@@ -209,7 +209,7 @@ header{
 
 
                                   /*////////////////////////*/
-                                  /* SUPPRESSION CHAPITRES  */
+                                  /*   DELETE  CHAPTERS     */
                                   /*////////////////////////*/
 #suppression_chapitres{
   padding-top:110px;
@@ -218,7 +218,7 @@ header{
 }
 
                             /*////////////////////////*/
-                            /*      PIED DE PAGE      */
+                            /*        FOOTER          */
                             /*////////////////////////*/
 footer {
   background-color: #343a40;

@@ -62,10 +62,37 @@
                 "id" => $chapter->id()
             ));
         }
-        public function readChapter(){
-            
-            $req = $this->_db->prepare("SELECT * FROM chapter ORDER BY dateCreationChapter DESC");
-            $req->execute(array());
+        public function readAllChapter(){
+            $req = $this->_db->query('SELECT * FROM chapter ORDER BY dateCreationChapter');
+            $chapters = [];
+            while ($data = $req->fetch(PDO::FETCH_ASSOC))
+            {
+                $chapters[] = new ChapterCreation($data);
+            }
+            return $chapters; 
+        }
+        public function readChapterByID(){
+            $req = $this->_db->query('SELECT * FROM chapter');
+            $req->execute(array(
+            ));
+            $chapterId = [];
+            while ($data = $req->fetch(PDO::FETCH_ASSOC))
+            {
+                $chapterId[] = new ChapterCreation($data);
+            }
+            return $chapterId;
+        }
+        public function editChapter($id){
+            $req = $this->_db->prepare('SELECT * FROM chapter WHERE id = ?');
+            $req->execute(array(
+                $id
+            ));
+            $chapterEdit = [];
+            while ($data = $req->fetch(PDO::FETCH_ASSOC))
+            {
+                $chapterEdit[] = new ChapterCreation($data);
+            }
+            return $chapterEdit;
         }
     }
 ?>

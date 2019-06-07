@@ -1,25 +1,32 @@
 <?php
-
+    require "Chapter.php";
+    require "ChapterManager.php";
     require "Comment.php";
     require "CommentManager.php";
 
 
-    try {
-        $bdd= new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
-    } catch (Exception $e) {
-        die('Erreur : ' . $e->getMessage());
-    }   
+    // try {
+    //     $bdd= new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
+    // } catch (Exception $e) {
+    //     die('Erreur : ' . $e->getMessage());
+    // }   
 
 
     $edit_chapter = htmlspecialchars($_GET['edit']);
-
-    $chapter = $bdd->prepare('SELECT * FROM chapter WHERE id =?');
-    $chapter->execute(array($edit_chapter));
-    if ($chapter->rowCount() == 1) {
-        $chapter = $chapter->fetch();
-    }
-
-    $commentChapter = $bdd->query ('SELECT id, pseudo, messageComment, DATE_FORMAT(dateTimeComment, "%d/%m/%Y à %Hh%i") AS dateTimeComment FROM comment WHERE idCommentChapter= '.$_GET['edit'].' ORDER BY ID DESC LIMIT 0, 5'); 
+    
+    // $chapter = $bdd->prepare('SELECT * FROM chapter WHERE id =?');
+    // $chapter->execute(array($edit_chapter));
+    // if ($chapter->rowCount() == 1) {
+    //     $chapter = $chapter->fetch();
+    // }
+    $chapterManager = new chapterManager;
+    $commentReadChapter = $chapterManager->editChapter($edit_chapter);
+    
+    // $commentChapter = $bdd->query ('SELECT id, pseudo, messageComment, DATE_FORMAT(dateTimeComment, "%d/%m/%Y à %Hh%i") AS dateTimeComment FROM comment WHERE idCommentChapter= '.$_GET['edit'].' ORDER BY ID DESC LIMIT 0, 5'); 
+    
+    $commentManager = new CommentManager;
+    $commentRead = $commentManager->readComment($_GET['edit']);
+    
 
     if(isset($_POST['validate'])){
   
@@ -39,7 +46,6 @@
                 "signalement" => $signalement,
             ]);
             $commentManager->addComment($comment);
-            
             header('Location: commentChapter.php?edit=' . $_GET['edit']);
         }  
     }
@@ -79,9 +85,13 @@
                 <form action="commentChapter.php?edit=<?= $_GET['edit'] ?>" method="get">
                     <div class="card" style="width: 100%;height:auto ">
                         <div class="card-body">
-                            <h6 class="card-title"><?= $chapter['numberChapter']?></h6>
-                            <h2 class="card-subtitle mb-2 text-muted text-center"><?= $chapter['titleChapter']?></h2></br>
-                            <p class="card-text text-justify"><?= $chapter['contentChapter']?></p>   
+                        <?php foreach($commentReadChapter as $commentReadChapter) { ?>
+                            <h6 class="card-title"><?= $commentReadChapter->numberChapter() ?></h6>
+                            <h2 class="card-subtitle mb-2 text-muted text-center"><?= $commentReadChapter->titleChapter() ?></h2><br/>
+                            <p class="card-text text-justify"><?= $commentReadChapter->contentChapter() ?></p>   
+                        <?php
+                            }
+                        ?>
                         </div>
                     </div>
                 </form>   
@@ -110,15 +120,16 @@
             <section>  
                 <form  action="commentChapter.php?edit=<?= $_GET['edit'] ?>" method="post">
                     <?php
-                    while ($data = $commentChapter->fetch()) {   
-                ?>
-                <div class="card text-white bg-info mb-3" style="max-width: 18rem;  margin: auto; margin-top:100px;">
-                    <div class="card-header"><?= $data['pseudo'] ?></div>
+                        foreach ($commentRead as $commentRead) {
+                    ?>
+                <div class="card text-white bg-info mb-3" style="max-width: 18rem;  margin: auto; margin-top:100px;" >
+                <div class="card-header"><?= $commentRead->pseudo() ?></div>
+                
                         <div class="card-body">
-                            <h5 class="card-title">Le <?= $data['dateTimeComment'] ?></h5>
-                            <p class="card-text"><?= $data['messageComment'] ?></p>
+                            <h5 class="card-title">Le <?= $commentRead->dateTimeComment() ?></h5>
+                            <p class="card-text"><?= $commentRead->messageComment() ?></p>
                         </div>
-                            <a href="commentChapter.php?edit=<?= $_GET['edit'] ?>&signed=<?=$data['id'] ?>" name="report" class="btn btn-outline-danger btn-sm" style="color:white">Signaler</a>
+                            <a href="commentChapter.php?edit=<?= $_GET['edit'] ?>&signed=<?= $commentRead->id() ?>" name="report" class="btn btn-outline-danger btn-sm" style="color:white">Signaler</a>
                   
                 </div>
                 <?php

@@ -25,7 +25,7 @@
                 $this->setContentChapter($data['contentChapter']);
             }
             if(isset($data['dateCreationChapter'])){
-                $this->setDateCreationChapter($data['dateCreattionChapter']);
+                $this->setDateCreationChapter($data['dateCreationChapter']);
             }
         }
         // GETTERS

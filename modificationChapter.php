@@ -1,6 +1,7 @@
 <?php
 
     session_start();
+
     require "Chapter.php";
     require "ChapterManager.php";
 
@@ -14,11 +15,10 @@
         die('Erreur : ' . $e->getMessage());
     }
 
+    // $chapter = $bdd->query('SELECT * FROM chapter ORDER BY dateCreationChapter DESC');
+    $chapterManager = new ChapterManager();       
+    $chapter = $chapterManager->readAllChapter();
     
-    $chapter = $bdd->query('SELECT * FROM chapter ORDER BY dateCreationChapter DESC');
-   
-    
-
     $edit_chapter['numberChapter'] = '';
     $edit_chapter['titleChapter'] = '';
     $edit_chapter['contentChapter'] = '';
@@ -31,6 +31,10 @@
             $edit_id = htmlspecialchars($_GET['edit']);
             $edit_chapter = $bdd->prepare('SELECT * FROM chapter WHERE id = ?');
             $edit_chapter->execute(array($edit_id));
+
+            // $chapterManager = new ChapterManager();       
+            // $readChapter = $chapterManager->readChapterById();
+            // var_dump($readChapter);
 
             if ($edit_chapter->rowCount() == 1) {
                 $edit_chapter = $edit_chapter->fetch();
@@ -70,8 +74,8 @@
 
             $_SESSION['message'] = "Votre chapitre a été modifié avec succés !";
             $_SESSION['msg_type'] = "success";
-            header('location: modificationChapter.php');
-            exit();
+            // header('location: modificationChapter.php');
+            // exit();
         }
     }   
 ?>
@@ -100,26 +104,25 @@
     </head>
     <body>
         <?php
-            // include('menuAdmin.php');
+            include('menuAdmin.php');
         ?>
         <h1 id="titreModification" style="padding-top:90px;text-align:center;"><span class="badge badge-warning">MODIFICATION CHAPITRES</span></h1>
         <section id="modificationChapters" style="margin:auto;width:100%;margin-top: -50px;">
             <div class="row col-12">
                 <?php
-                while ($c = $chapter->fetch()) {
+                foreach ($chapter as $chapter) {
                     ?>
                 <div id="modification_chapitre" class="card text-center" style="margin:0 auto;">
                     <div style="color:black;padding-bottom:10px;width:300px" class="card-header">
-                        <?= $c['numberChapter'] ?>
+                        <?= $chapter->numberChapter() ?>
                     </div>
                     <div class="card-body">
-                        <h5 style="color:black;" class="card-title"><?= $c['titleChapter'] ?></h5>
-                        <a href="modificationChapter.php?edit=<?= $c['id'] ?>" class="btn btn-primary">Editer</a>
+                        <h5 style="color:black;" class="card-title"><?= $chapter->titleChapter() ?></h5>
+                        <a href="modificationChapter.php?edit=<?= $chapter->id() ?>" class="btn btn-primary">Editer</a>
                     </div>
                 </div>
                 <?php 
-                }
-                    $chapter->closeCursor();
+                    }
                 ?>
             </div>
         </section>
