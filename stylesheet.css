@@ -96,7 +96,7 @@ header{
                                 /*///////////////////////////////*/
 
                               
-#creerCompte {
+#newAccount {
   width: 100%;
   position: absolute;
   top: 200px;
@@ -198,7 +198,7 @@ header{
   background-color: #212743;
   z-index: 2;
 }
-#contenu_chapitre{
+#contentChapter{
   min-height: 450px;
 }
 #imgModificationChapter{
@@ -208,18 +208,19 @@ header{
 }
 
 
+
                                   /*////////////////////////*/
                                   /*   DELETE  CHAPTERS     */
                                   /*////////////////////////*/
-#suppression_chapitres{
+#deleteChapters{
   padding-top:110px;
   top:80px;
   color:white;
 }
 
-                            /*////////////////////////*/
-                            /*        FOOTER          */
-                            /*////////////////////////*/
+                                  /*////////////////////////*/
+                                  /*        FOOTER          */
+                                  /*////////////////////////*/
 footer {
   background-color: #343a40;
   padding-top: 110px;
@@ -230,4 +231,100 @@ footer h5 {
 }
 #copyright {
   color: white;
+}
+
+@media (min-device-width: 180px) and (max-device-width:480px),
+(min-width: 180px) and (max-width:480px) {
+                                    /*////////////////////////*/
+                                    /*        INDEX           */
+                                    /*////////////////////////*/
+  #titleAbout {
+    font-size: 30px;
+    margin-top: 20px;
+  }
+  #subtitleAbout {
+    font-size: 18px;
+    margin-top: 0px;
+  }
+  #textAbout {
+    font-size: 8px;
+    margin-top: 20px;
+  }
+  #chaptersElement h1 {
+    font-size: 20px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
+  footer{
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  
+                                  /*////////////////////////*/
+                                  /*        ADMIN           */
+                                  /*////////////////////////*/
+  #formAdmin {
+    width: 85%;
+  }
+  #imgAdmin {
+    right: 9%;
+  }
+                                  /*////////////////////////*/
+                                  /*   CREATION CHAPTERS    */
+                                  /*////////////////////////*/
+  #titleCreateChapter{
+    font-size: 25px;
+  }                              
+  #imgCreateChapter {
+    right: -13.4%;
+  }
+  #chapters {
+    height: 600px;
+  }
+                                  /*////////////////////////*/
+                                  /*  MODIFICATION CHAPTERS */
+                                  /*////////////////////////*/
+  #titleModification {
+    font-size: 25px;
+  }
+  #imgModificationChapter {
+      right: -12.5%;
+  }
+  #modification_chapter {
+    height: 600px;
+  }
+                                  /*////////////////////////*/
+                                  /*     DELETE CHAPTERS    */
+                                  /*////////////////////////*/
+  #titleDelete {
+    font-size: 25px;
+  }
+                                  /*////////////////////////*/
+                                  /*     CREATION ACCOUNT   */
+                                  /*////////////////////////*/
+  #titleCreation{
+    font-size: 25px;
+  }
+  #formAccount {
+    width: 85%;
+  }
+  #imgNewAccount {
+    position: absolute;
+    right: 8.2%;
+    top: 3px;
+}
+}
+@media (orientation: landscape) and (min-device-width : 481px) and (max-device-width : 767px),
+(min-width: 481px) and (max-width:767px) {
+  
+}
+
+@media (min-device-width : 768px) and (max-device-width : 1023px),
+(min-width: 768px) and (max-width:1023px) {
+  
+}
+
+@media (orientation: landscape) and (min-device-width : 1024px) and (max-device-width : 1366px),
+(min-width: 1024px) and (max-width:1366px) {
+  
 }

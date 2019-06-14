@@ -1,93 +1,10 @@
-<?php
-    session_start();
-
-    require "Chapter.php";
-    require "ChapterManager.php";
-
-
-    if(!isset($_SESSION['user']))
-    {
-        header('Location: admin.php');
-        exit();
-    }
-    if(!empty($_POST))
-    {
-        // try {
-        //     $bdd = new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
-        // } catch (Exception $e) {
-        //     die('Erreur : ' . $e->getMessage());
-        // }
-        $numberChapter=trim(htmlspecialchars($_POST['numberChapter']));
-        $titleChapter=trim(htmlspecialchars($_POST['titleChapter']));
-        $contentChapter=trim($_POST['contentChapter']);
-        $validation = true;
-
-        if(empty($numberChapter) || empty($titleChapter) || empty($contentChapter))
-        {
-            $_SESSION['message'] = "Tous les champs sont obligatoires ";
-            $_SESSION['msg_type'] = "danger";
-            $validation = false;
-        }
-        if(!empty($_POST['numberChapter']))
-        {
-            // $req = $bdd->prepare("SELECT * FROM chapter WHERE numberChapter = :number");
-            // $req->execute(array(
-            //     "number" => $number
-            // ));
-            // $data = $req->fetch(PDO::FETCH_ASSOC);
-            $chapterManager = new ChapterManager();       
-            $data = $chapterManager->getByNumberChapter($numberChapter);
-
-            if ($data == true)
-            {
-                $_SESSION['message'] = "Numéro de chapitre déjà existant";
-                $_SESSION['msg_type'] = "danger";
-                $validation = false;
-            }
-        }
-        if(!empty($_POST['titleChapter']))
-        {
-            // $req = $bdd->prepare("SELECT * FROM chapter WHERE titleChapter = :title");
-            // $req->execute(array(
-            //     "title" => $title
-            // ));
-            // $data = $req->fetch(PDO::FETCH_ASSOC);
-            $chapterManager = new ChapterManager();
-            $data = $chapterManager->getByTitleChapter($titleChapter);
-            if ($data == true)
-            {
-                $_SESSION['message'] = "Titre de chapitre déjà existant";
-                $_SESSION['msg_type'] = "danger";
-                $validation = false;
-            }
-        }
-        if($validation == true)
-        {
-            // $req = $bdd->prepare("INSERT INTO chapter(numberChapter, titleChapter, contentChapter) VALUES (?,?,?)");
-            // $req->execute(array(
-            //     $number,
-            //     $title,
-            //     $content,
-            // ));
-            $chapter = new ChapterCreation([
-                "numberChapter" => $numberChapter,
-                "titleChapter" => $titleChapter,
-                "contentChapter" => $contentChapter,
-            ]);
-            $chapterManager->addChapterCreation($chapter);
-            $_SESSION['message']= "Votre chapitre a été crée avec succés !";
-            $_SESSION['msg_type'] = "success";
-            header('Location: admin.php');
-            exit();
-        }
-    }
-?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="icon" href="images/favicon.ico">
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -107,17 +24,17 @@
     </head>
     <body>
         <?php 
-            include("menuAdmin.php");
+            require "menuAdmin.php";
         ?>
     <h1 id="titleCreateChapter" style="padding-top:90px;text-align:center;"><span class="badge badge-success">CREATION CHAPITRE</span></h1>
 
     <section id="chapters">
         <div id="crossCreateChapter">
-            <a href="admin.php">
+            <a href="index.php?action=admin">
                 <input id="imgCreateChapter" type="image" alt="image" src="images/croix.png">
             </a>
         </div>
-        <form action="creationChapter.php" method="post" id="creationChapter">
+        <form action="index.php?action=creationChapter" method="post" id="creationChapter">
             <div class="form-group">
                 <label id="chapter">Chapitre : </label>
                 <input type="text" name="numberChapter" style="text-transform: capitalize;" id="numberChapterId" class="form-control" placeholder="Chapitre X" value="<?php if (isset($numberChapter)) {

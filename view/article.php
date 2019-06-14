@@ -1,79 +1,10 @@
-<?php
-    require "Chapter.php";
-    require "ChapterManager.php";
-    require "Comment.php";
-    require "CommentManager.php";
-
-
-    // try {
-    //     $bdd= new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
-    // } catch (Exception $e) {
-    //     die('Erreur : ' . $e->getMessage());
-    // }   
-
-
-    $edit_chapter = htmlspecialchars($_GET['edit']);
-    
-    // $chapter = $bdd->prepare('SELECT * FROM chapter WHERE id =?');
-    // $chapter->execute(array($edit_chapter));
-    // if ($chapter->rowCount() == 1) {
-    //     $chapter = $chapter->fetch();
-    // }
-    $chapterManager = new chapterManager;
-    $commentReadChapter = $chapterManager->editChapter($edit_chapter);
-    
-    // $commentChapter = $bdd->query ('SELECT id, pseudo, messageComment, DATE_FORMAT(dateTimeComment, "%d/%m/%Y à %Hh%i") AS dateTimeComment FROM comment WHERE idCommentChapter= '.$_GET['edit'].' ORDER BY ID DESC LIMIT 0, 5'); 
-    
-    $commentManager = new CommentManager;
-    $commentRead = $commentManager->readComment($_GET['edit']);
-    
-
-    if(isset($_POST['validate'])){
-  
-        if (isset($_POST['pseudo']) &&!empty($_POST['pseudo']) && isset($_POST['message']) &&!empty($_POST['message'])){
-
-            $pseudo = htmlspecialchars($_POST['pseudo']);
-            $messageComment = htmlspecialchars($_POST['message']);
-            $signalement = "0";
-            // $req = $bdd->prepare('INSERT INTO comment (pseudo, messageComment, idCommentChapter ,signalement) VALUES(?, ?, ?, ?)');
-            // $req->execute(array($pseudo, $message,$_GET['edit'], $signalement));
-            
-            $commentManager = new CommentManager();
-            $comment = new CommentChapter([
-                "pseudo" => $pseudo,
-                "messageComment" => $messageComment,
-                "idCommentChapter" => $_GET['edit'],
-                "signalement" => $signalement,
-            ]);
-            $commentManager->addComment($comment);
-            header('Location: commentChapter.php?edit=' . $_GET['edit']);
-        }  
-    }
-
-    if(isset($_GET['signed'])){
-        $signalement = "1";
-        $modifSigned_id = $_GET['signed'];
-        // $req = $bdd->prepare('UPDATE comment SET signalement= :signalement WHERE id = :id ');
-        // $req->execute(array(
-        //     'signalement' => $signalement,
-        //     'id' => $modifSigned_id,    
-        // ));
-        $commentManager = new CommentManager();   
-        $comment = new CommentChapter([
-            'signalement' => $signalement,
-            'id' => $modifSigned_id,  
-            ]);
-        
-        $commentManager->updateComment($comment);
-    }
-
-?>
 <!DOCTYPE html>
     <html lang="fr">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <link rel="icon" href="images/favicon.ico">
             <link rel="stylesheet" type="text/css" href="stylesheet.css">
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -82,12 +13,12 @@
         </head>
         <body>
             <section>
-                <form action="commentChapter.php?edit=<?= $_GET['edit'] ?>" method="get">
+                <form action="index.php?action=commentChapter&edit=<?= $_GET['edit'] ?>" method="get">
                     <div class="card" style="width: 100%;height:auto ">
                         <div class="card-body">
                         <?php foreach($commentReadChapter as $commentReadChapter) { ?>
-                            <h6 class="card-title"><?= $commentReadChapter->numberChapter() ?></h6>
-                            <h2 class="card-subtitle mb-2 text-muted text-center"><?= $commentReadChapter->titleChapter() ?></h2><br/>
+                            <h3 class="card-title"><?= $commentReadChapter->numberChapter() ?> </h3>
+                            <h1 class="card-subtitle mb-2 text-muted text-center"><?= $commentReadChapter->titleChapter() ?></h1><br/>
                             <p class="card-text text-justify"><?= $commentReadChapter->contentChapter() ?></p>   
                         <?php
                             }
@@ -102,7 +33,7 @@
                         <h1 id=titreCommentaire style="padding-top:90px;text-align:center;"><span class="badge badge-info">Votre commentaire</span></h1>
                     </div>
                     <div class="card-body";>
-                        <form  action="commentChapter.php?edit=<?= $_GET['edit'] ?>" method="post">
+                        <form  action="index.php?action=article&edit=<?= $_GET['edit'] ?>" method="post">
                             <div class="form-group row">
                                 <label for="author" class="col-sm-3 col-form-label"></label>
                                 <input type="text" name="pseudo" placeholder="Pseudo" class="form-control col-sm-6">
@@ -118,7 +49,7 @@
                 </div>
             </section>
             <section>  
-                <form  action="commentChapter.php?edit=<?= $_GET['edit'] ?>" method="post">
+                <form  action="index.php?action=article&edit=<?= $_GET['edit'] ?>" method="post">
                     <?php
                         foreach ($commentRead as $commentRead) {
                     ?>
@@ -129,7 +60,7 @@
                             <h5 class="card-title">Le <?= $commentRead->dateTimeComment() ?></h5>
                             <p class="card-text"><?= $commentRead->messageComment() ?></p>
                         </div>
-                            <a href="commentChapter.php?edit=<?= $_GET['edit'] ?>&signed=<?= $commentRead->id() ?>" name="report" class="btn btn-outline-danger btn-sm" style="color:white">Signaler</a>
+                            <a href="index.php?action=article&edit=<?= $_GET['edit'] ?>&signed=<?= $commentRead->id() ?>" name="report" class="btn btn-outline-danger btn-sm" style="color:white">Signaler</a>
                   
                 </div>
                 <?php
@@ -138,7 +69,7 @@
                 </form>      
             </section>
             <div >
-               <a class="btn btn-info" style="margin-left:70%;margin-top:100px;margin-bottom:50px;color:white;text-decoration:none;"href="index.php">Retour à l'accueil</a>
+               <a class="btn btn-info" style="margin-left:70%;margin-top:100px;margin-bottom:50px;color:white;text-decoration:none;"href="index.php?action=home">Retour à l'accueil</a>
             </div>
             
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -1,125 +1,10 @@
-<?php
-    session_start();
-
-    require "Account.php";
-    require "AccountManager.php";
-
-    if(!isset($_SESSION['user']))
-    {
-        header('Location: admin.php');
-        exit();
-    }
-    if (!empty($_POST))
-    {
-        // try {
-        //     $bdd = new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
-        // } catch (Exception $e) {
-        //     die('Erreur : ' . $e->getMessage());
-        // }
-    
-
-        $name = trim(htmlspecialchars($_POST['nom']));
-        $pseudo = trim(htmlspecialchars($_POST['pseudo']));
-        $password1 = trim(htmlspecialchars($_POST['password1']));
-        $password2 = trim(htmlspecialchars($_POST['password2']));
-        $mail = trim(htmlspecialchars($_POST['mail']));
-        $validation = true;
-
-        if (empty($name) || empty($pseudo) || empty($password1) || empty($password2) || empty($mail))
-        {
-            $_SESSION['message'] = "Tous les champs sont obligatoires ";
-            $_SESSION['msg_type'] = "danger";
-            $validation = false;
-        }
-        if (strlen($name) > 30) {
-            $_SESSION['message'] = "Votre nom doit faire moins de 30 caractères";
-            $_SESSION['msg_type'] = "danger";
-            $validation = false;
-        }
-        if(strlen($pseudo) < 5 && strlen($pseudo) > 20)
-        {
-            $_SESSION['message'] = "Votre pseudo doit être compris entre 5 et 20 caractères";
-            $_SESSION['msg_type'] = "danger";
-            $validation = false; 
-        }
-        if(!empty($_POST['pseudo']))
-        {
-            // $req = $bdd->prepare("SELECT * FROM `users` WHERE pseudo = :pseudo");
-            // $req->execute(array(
-            //     "pseudo" => $pseudo
-            // ));
-            // $data = $req->fetch(PDO::FETCH_ASSOC);
-            $accountManager = new AccountManager();       
-            $data = $accountManager->getByPseudo($pseudo);
-
-            if ($data == true)
-            {
-                $_SESSION['message'] = "Pseudo déjà existant";
-                $_SESSION['msg_type'] = "danger";
-                $validation = false;
-            }
-        }
-        if (strlen($password1) < 8 && strlen($password1) >= 25) {
-            $_SESSION['message'] = "Votre mot de passe doit être compris entre 8 et 25 caractères";
-            $_SESSION['msg_type'] = "danger";
-            $validation = false;
-        }
-        if ($password1 != $password2) {
-            $_SESSION['message'] = "Mots de passe différents";
-            $_SESSION['msg_type'] = "danger";
-            $validation = false;
-        }
-        if(!empty($_POST['mail']))
-        {
-            // $req = $bdd->prepare('SELECT * FROM users WHERE mail = :mail');
-            // $req->execute(array(
-            //     "mail" => $mail
-            // ));
-            // $data = $req->fetch(PDO::FETCH_ASSOC);
-
-            $accountManager = new AccountManager();       
-            $data = $accountManager->getByMail($mail);
-            
-            if($data == true)
-            {
-                $_SESSION['message'] = "Mail déjà existant";
-                $_SESSION['msg_type'] ="danger";
-                $validation = false;
-            }
-        }
-        if($validation == true)
-        {
-            $password1 = password_hash($password1, PASSWORD_DEFAULT);
-
-            // $req = $bdd->prepare("INSERT INTO users(username, pseudo, password1, mail) VALUES (?,?,?,?)");
-            // $req->execute(array(
-            //     $name,
-            //     $pseudo,
-            //     $password1,
-            //     $mail
-            // ));
-            
-            $users = new AccountCreation([
-                "username" => $name,
-                "pseudo" => $pseudo,
-                "password1" => $password1,
-                "mail" => $mail
-            ]);
-            $accountManager->addAccountCreation($users);
-
-            $_SESSION['message'] = "Votre compte a été crée avec succés !";
-            $_SESSION['msg_type'] = "success";
-            header('Location: admin.php');
-            exit();
-        }
-    }
-?>
 <!DOCTYPE html>
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="icon" href="images/favicon.ico">
         <link rel="stylesheet" type="text/css" href="stylesheet.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -128,17 +13,17 @@
     </head>
     <body>
         <?php 
-            include("menuAdmin.php");
+            require "menuAdmin.php";
         ?>
         <h1 id=titleCreation style="padding-top:90px;text-align:center;"><span class="badge badge-primary">CREATION COMPTE</span></h1>
 
     <section id="newAccount">
         <div id="crossNewAccount">
-            <a href="admin.php">
+            <a href="index.php?action=admin">
                 <input id="imgNewAccount" type="image" alt="image" src="images/croix.png">
             </a>
         </div>
-        <form action="creationAccount.php" method="post" id="formAccount">
+        <form action="index.php?action=creationAccount" method="post" id="formAccount">
 
             <div class="form-group">
                 <label for="inputNom" id="labelAccountName">Nom</label>

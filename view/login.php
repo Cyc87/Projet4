@@ -1,46 +1,3 @@
-<?php
-
-session_start();
-
-    require "Account.php";
-    require "AccountManager.php";    
-
-if (isset($_SESSION['user'])) {
-    header('Location: admin.php');
-    exit();
-}
-if (!empty($_POST)) {
-    // try {
-    //     $bdd = new PDO('mysql:host=localhost;dbname=projet4;charset=utf8', 'root', '');
-    // } catch (Exception $e) {
-    //     die('Erreur : ' . $e->getMessage());
-    // }
-
-    // $req = $bdd->prepare("SELECT * FROM `users` WHERE username = :username");
-
-    // $req->execute(array(
-    //     "username" => $_POST['usernameAdmin']
-    // ));
-
-    // $data = $req->fetch(PDO::FETCH_ASSOC);
-        $accountManager = new AccountManager();       
-        $data = $accountManager->getByUserName($name);
-    
-    if ($data) {  
-        if (password_verify($_POST['password'], $data['password1'])){
-            $_SESSION['user'] = $data['id'];
-            header('Location: admin.php');
-            exit();
-        } else {
-            $_SESSION['message'] = "Votre mot de passe est invalide";
-            $_SESSION['msg_type'] = "danger";
-        }
-    } else {
-        $_SESSION['message'] = "Votre login est invalide";
-        $_SESSION['msg_type'] = "danger";
-    }
-}
-?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -48,6 +5,7 @@ if (!empty($_POST)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="images/favicon.ico">
     <link rel="stylesheet" type="text/css" href="stylesheet.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -58,11 +16,11 @@ if (!empty($_POST)) {
 <body>
     <section id="administration">
         <div id="crossAdmin">
-            <a href="index.php">
+            <a href="index.php?action=home">
                 <input id="imgAdmin" type="image" alt="image" src="images/croix.png">
             </a>
         </div>
-        <form id="formAdmin" action="login.php" method="post">
+        <form id="formAdmin" action="index.php?action=login" method="post">
             <div class="form-group">
                 <label for="label"></label>
                 <input type="text" class="form-control" name="usernameAdmin" placeholder="Admin" required="">
