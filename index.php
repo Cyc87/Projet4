@@ -33,6 +33,6 @@
     }else if($_GET['action'] == "modificationChapter"){
         modificationChapter();
     }else{
-        echo "nana";
+        pageError();
     }
   

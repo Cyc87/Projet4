@@ -356,6 +356,8 @@ if (!isset($_SESSION['user'])) {
     }   
     include("view/modificationChapter.php");
 }
-
+function pageError(){
+   include("view/pageError.php");
+}
     
 

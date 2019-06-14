@@ -33,7 +33,7 @@
         </header>
         <section>
             <picture>
-                <img src="images/1.jpg" class="img-fluid" alt="Responsive image">
+                <img src="images/1.jpg" class="img-fluid1" alt="Responsive image">
             </picture>
         </section>
         </div>

@@ -13,8 +13,34 @@ header{
                               /*   IMAGE SINGLE TICKET   */
                               /*       FOR ALASKA        */
                               /*/////////////////////////*/
-.img-fluid {
+.img-fluid1 {
   width: 100%;
+}
+                              /*/////////////////////////*/
+                              /*IMAGE and TEXT PAGE ERROR*/
+                              /*/////////////////////////*/
+.img-fluid2 {
+  min-height: 100%;
+  min-width: 1600px;
+  width: 100%;
+  height: auto;
+  position: fixed;
+}
+
+#errorText1{
+  position: absolute;
+  color: white;
+  left:50px;
+  top:50px;
+  font-size: 50px;
+}
+#errorText3 {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  color: white;
+  top: 650px;
+  right: 780px;
 }
                               /*/////////////////////////*/
                               /*  PRESENTATION WRITER    */
