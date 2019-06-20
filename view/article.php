@@ -69,7 +69,7 @@
                 </form>      
             </section>
             <div >
-               <a class="btn btn-info" style="margin-left:70%;margin-top:100px;margin-bottom:50px;color:white;text-decoration:none;"href="index.php?action=home">Retour à l'accueil</a>
+               <a id="returnHome"class="btn btn-info" style="margin-left:50%;margin-top:100px;margin-bottom:50px;color:white;text-decoration:none;"href="index.php?action=home">Retour à l'accueil</a>
             </div>
             
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

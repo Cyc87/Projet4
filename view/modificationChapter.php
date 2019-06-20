@@ -9,8 +9,9 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"> 
+        <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
         <title>Modification des chapitres</title>
-        <script src="tinymce/js/tinymce/tinymce.min.js"></script>
+        <!-- <script src="tinymce/js/tinymce/tinymce.min.js"></script> -->
         <script>
             tinymce.init({
                 selector: 'textarea',
@@ -47,7 +48,7 @@
             </div>
         </section>
         <section id="modification_chapter">
-            <div id="crossCreateChapter">
+            <div id="crossModifChapter">
                 <a href="index.php?action=admin">
                     <input id="imgModificationChapter" type="image" alt="image" src="images/croix.png">
                 </a>
@@ -71,7 +72,7 @@
                 }
             }
                 ?>
-                <button style="position:absolute;bottom: 10px" name="modif" type="submit" class="btn btn-warning"><a style="color:white"; >Modifier / Sauvegarder</a></button>
+                <button  name="modif" type="submit" class="btn btn-warning"><a style="color:white"; >Modifier / Sauvegarder</a></button>
             
             </form>
             <?php
