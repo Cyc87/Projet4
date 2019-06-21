@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="fr">
 
 <head>
@@ -13,7 +13,10 @@
     <title>Administrateur</title>
 </head>
 
-<body>
+<body> -->
+    <?php $title = 'Administrateur'; ?>
+    <?php ob_start(); ?>
+
     <section id="administration">
         <div id="crossAdmin">
             <a href="index.php?action=home">
@@ -43,6 +46,8 @@
         ?>
     </section>
 
-</body>
+<!-- </body>
 
-</html> 
+</html>  -->
+    <?php $content = ob_get_clean(); ?>
+    <?php require('template.php');
