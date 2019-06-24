@@ -6,22 +6,22 @@
 
     <h1 id=titleDelete style="padding-top:90px;text-align:center;"><span class="badge badge-danger">SUPPRESSION DES CHAPITRES</span></h1>
     <section id="deleteChapters" style="margin:auto;width:100%;padding-top:100px;">
-        <div class="row col-12">
+        
+        <div class="row" id="rowDelete">
+            
             <?php
-            foreach ($chapter as $chapter) {
-                ?>
-            <div id="suppresion_chapitre" class="card text-center" style="margin:0 auto;">
-                <div style="color:black;padding-bottom:10px;width:300px" class="card-header">
-                    <?= $chapter->numberChapter() ?>
-                </div>
+                foreach ($chapter as $chapter) {
+            ?>
+            <div id="cardText" class="card text-white bg-light mb-3" style="width: 300px;">
+                <div class="card-header" style="color:black"><?= $chapter->numberChapter() ?></div>
                 <div class="card-body">
-                    <h5 style="color:black;" class="card-title"><?= $chapter->titleChapter() ?></h5>
-                    <a href="index.php?action=deleteChapter&id=<?= $chapter->id() ?>" class="btn btn-danger">Supprimer</a>
+                    <h5 class="card-title" style="color:black"><?= $chapter->titleChapter() ?></h5>
+                    <a  href="index.php?action=deleteChapter&id=<?= $chapter->id() ?>" style="color:white;text-decoration:none;"class="btn btn-danger">Supprimer</a>
                 </div>
             </div>
-            <?php
-        }
-        ?>
+            <?php 
+            }
+            ?>
         </div>
     </section>
     <?php

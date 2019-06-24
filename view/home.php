@@ -24,11 +24,10 @@
             <img src="images/1.jpg" class="img-fluid1" alt="Responsive image">
         </picture>
     </section>
-    </div>
-    </section>
+    
     <section id="about">
-        <div class="container-fluid">
-            <div class="row">
+        <div class="row">
+            <div class="container-fluid">
                 <div class="col">
                     <h1 id="titleAbout">Jean Forteroche</h1> <br />
                     <h2 id="subtitleAbout"> L'aventurier de l'écriture et du voyage</h2>
@@ -52,7 +51,7 @@
                 <div class="card-header" style="color:black"><?= $chapter->numberChapter() ?></div>
                 <div class="card-body">
                     <h5 class="card-title" style="color:black"><?= $chapter->titleChapter() ?></h5>
-                    <a  href="index.php?action=article&edit=<?= $chapter->id() ?>" style="color:white;text-decoration:none;"class="btn btn-dark">Voir plus...</a>
+                    <a  href="index.php?action=article&edit=<?= $chapter->id() ?>" style="color:white;text-decoration:none;" class="btn btn-dark">Voir plus...</a>
                 </div>
             </div>
             <?php 
@@ -65,7 +64,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 mx-auto">
                     <ul class="list-inline text-center">
-                        <h5> Rejoignez-moi : </h5>
+                        <li style="color:white ; font-size:20px" > Rejoignez-moi : </li>
                         <li class="list-inline-item">
                             <a href="index.php?action=home">
                                 <span class="fa-stack fa-lg">
@@ -103,11 +102,11 @@
 
                 <div class="col-lg-6 col-md-6 mx-auto">
                     <ul class="secondary-menu list-inline text-center">
-                        <h5>Liens utiles</h5>
-                        <li class="list-inline-item">
+                        <li style="color:white ; font-size:20px" > Liens utiles : </li>
+                        <li class="list-inline-item" style=" font-size:20px">
                             <a href="index.php?action=home">Mentions légales</a>
                         </li>
-                        <li class="list-inline-item">
+                        <li class="list-inline-item" style=" font-size:20px">
                             <a href="index.php?action=login">Admin</a>
                         </li>
                     </ul>

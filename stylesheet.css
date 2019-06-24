@@ -1,8 +1,4 @@
-body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden	
-}
+
 header{
   position: fixed;
   width: 100%;
@@ -78,6 +74,10 @@ header{
 #chaptersElement{
   background-color: #ad8003;
 }
+#index_Chapters{
+  margin-right:15px;
+  margin-left:15px;
+}
 
 #chaptersElement h1{
   padding-top: 90px;
@@ -114,6 +114,10 @@ header{
   position: absolute;
   right: 38%;
   margin-top: 5px;
+}
+#rowcommentSigned{
+  margin-right: 15px;
+  margin-left: 15px;
 }
 
 
@@ -205,13 +209,9 @@ header{
                                   /*////////////////////////*/
                                   /* MODIFICATION CHAPTERS  */
                                   /*////////////////////////*/
-#modificationChapters {
-  width: 100%;
-  position: absolute;
-  top: 200px;
-  z-index: 1;
-}
+
 #modification_chapter{
+  position: relative;
   margin: 0 auto;
   width: 80%;
   height:750px;
@@ -219,7 +219,7 @@ header{
   border: 1px solid #CCC;
   border-radius: 1em;
   background-color: #103565;
-  margin-top:200px;
+  margin-top: 130px;
 }
 .modif{
   bottom: -100px;
@@ -235,6 +235,10 @@ header{
   right: -2.5%;
   top: -30px;
 }
+#modifChanged{
+  position: absolute;
+  top: 680px;
+}
 
 
 
@@ -245,6 +249,11 @@ header{
   padding-top:110px;
   top:80px;
   color:white;
+  position:absolute;
+}
+#rowDelete{
+    margin-right: 15px;
+    margin-left: 15px;
 }
 
                                   /*////////////////////////*/
@@ -305,7 +314,7 @@ footer h5 {
       font-size: 25px;
     }                              
     #imgCreateChapter {
-      right: -13.4%;
+      right: 10.6%
     }
     #chapters {
       height: 600px;
@@ -317,14 +326,15 @@ footer h5 {
       font-size: 25px;
     }
     #imgModificationChapter {
-        right: -12.5%;
+        right: -10.5%;
     }
     #modification_chapter {
-      height: 600px;
+      height: 760px;
     }
                                     /*////////////////////////*/
                                     /*     DELETE CHAPTERS    */
                                     /*////////////////////////*/
+                                   
     #titleDelete {
       font-size: 25px;
     }
@@ -347,15 +357,47 @@ footer h5 {
 }
 @media (orientation: landscape) and (min-device-width : 481px) and (max-device-width : 767px),
 (min-width: 481px) and (max-width:767px) {
-  
+
+                                    /*////////////////////////*/
+                                    /*        INDEX           */
+                                    /*////////////////////////*/
+    #titleAbout{
+      margin-top: 30px;
+      font-size: 40px;
+    }
+    #subtitleAbout {
+      margin-top: -20px;
+    }
+    #textAbout {
+      font-size: 10px;
+      margin-top: 40px;
+    }
+    #chaptersElement h1 {
+      padding-top: 40px;
+      font-size: 40px;
+    }
+    footer {
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
 }
 
 @media (min-device-width : 768px) and (max-device-width : 1023px),
 (min-width: 768px) and (max-width:1023px) {
+
+
+                                    /*////////////////////////*/
+                                    /*  MODIFICATION CHAPTERS */
+                                    /*////////////////////////*/
   
+
+  #imgModificationChapter {
+        right: -5.5%;
+  }
+
 }
 
-@media (orientation: landscape) and (min-device-width : 1024px) and (max-device-width : 1366px),
+/* @media (orientation: landscape) and (min-device-width : 1024px) and (max-device-width : 1366px),
 (min-width: 1024px) and (max-width:1366px) {
   
-}
+} */

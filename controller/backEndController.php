@@ -229,9 +229,9 @@ function deleteChapter(){
     include("view/deleteChapter.php");
 }
 function modificationChapter(){
-if (!isset($_SESSION['user'])) {
-        header('Location: index.php?action=admin');
-        exit();
+    if (!isset($_SESSION['user'])) {
+            header('Location: index.php?action=admin');
+            exit();
     }
 
     $chapterManager = new ChapterManager();       

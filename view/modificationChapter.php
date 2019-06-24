@@ -15,25 +15,25 @@
 
 <?php include('menuAdmin.php'); ?>
 
-    <h1 id="titleModification" style="padding-top:90px;text-align:center;"><span class="badge badge-warning">MODIFICATION CHAPITRES</span></h1>
-    <section id="modificationChapters" style="margin:auto;width:100%;margin-top: -50px;">
-        <div class="row col-12">
+    <h1 id="titleModification" style="padding-top:150px;text-align:center;"><span class="badge badge-warning">MODIFICATION CHAPITRES</span></h1>
+    <section id="modificationChapters">
+        <div class="row" style="margin:auto;padding-top: 100px;" >
+            
             <?php
-            foreach ($chapter as $chapter) {
-                ?>
-            <div id="modification_chapitre" class="card text-center" style="margin:0 auto;">
-                <div style="color:black;padding-bottom:10px;width:300px" class="card-header">
-                    <?= $chapter->numberChapter() ?>
-                </div>
+                foreach ($chapter as $chapter) {
+            ?>
+            <div id="cardText" class="card text-white bg-light mb-3" style="width: 230px;">
+                <div class="card-header" style="color:black"><?= $chapter->numberChapter() ?></div>
                 <div class="card-body">
-                    <h5 style="color:black;" class="card-title"><?= $chapter->titleChapter() ?></h5>
-                    <a  href="index.php?action=modificationChapter&edit=<?= $chapter->id() ?>" class="btn btn-primary">Editer</a>
+                    <h5 class="card-title" style="color:black"><?= $chapter->titleChapter() ?></h5>
+                    <a  href="index.php?action=modificationChapter&edit=<?= $chapter->id() ?>" style="color:white;text-decoration:none;"class="btn btn-primary">Editer</a>
                 </div>
             </div>
             <?php 
-                }
+            }
             ?>
         </div>
+        
     </section>
     <section id="modification_chapter">
         <div id="crossModifChapter">
@@ -60,7 +60,7 @@
             }
         }
             ?>
-            <button  name="modif" type="submit" class="btn btn-warning"><a style="color:white"; >Modifier / Sauvegarder</a></button>
+            <button id="modifChanged" name="modif" type="submit" class="btn btn-warning"><a style="color:white"; >Modifier / Sauvegarder</a></button>
         
         </form>
         <?php
