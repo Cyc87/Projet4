@@ -32,8 +32,7 @@
             <?php 
             }
             ?>
-        </div>
-        
+        </div>   
     </section>
     <section id="modification_chapter">
         <div id="crossModifChapter">
@@ -41,7 +40,7 @@
                 <input id="imgModificationChapter" type="image" alt="image" src="images/croix.png">
             </a>
         </div>
-        <form action="index.php?action=modificationChapter&edit=<?= $_GET['edit'] ?>" method="post">
+        <form id="formModifChapter" action="index.php?action=modificationChapter&edit=<?= $_GET['edit'] ?>" method="post">
             <?php if(isset($commentModifChapter)){
                 foreach ($commentModifChapter as $commentModifChapter) { ?>
             <div class="form-group">

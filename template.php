@@ -13,7 +13,7 @@
         <title><?= $title ?></title>
     </head>
         
-    <body>
+    <body style="overflow-x:hidden">
     
         <?= $content ?>
 
