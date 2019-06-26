@@ -16,21 +16,21 @@
         <form action="index.php?action=creationChapter" method="post" id="creationChapter">
             <div class="form-group">
                 <label id="chapter">Chapitre : </label>
-                <input type="text" name="numberChapter" style="text-transform: capitalize;" id="numberChapterId" class="form-control" placeholder="Chapitre X" value="<?php if (isset($numberChapter)) {
+                <input type="text" name="numberChapter"  id="numberChapterId" class="form-control" placeholder="Chapitre X" value="<?php if (isset($numberChapter)) {
                                                                                                                                         echo $numberChapter;                                                                                                                    } ?>">
             </div>
             <div class="form-group">
                 <label id="titleChapterId">Titre :</label>
-                <input type="text" name="titleChapter" id="titleChapter" style="text-transform: capitalize;" class="form-control" placeholder="Titre" value="<?php if (isset($titleChapter)) {
+                <input type="text" name="titleChapter" id="titleChapter"  class="form-control" placeholder="Titre" value="<?php if (isset($titleChapter)) {
                                                                                                                                     echo $titleChapter;
                                                                                                                                 } ?>">
             </div>
             <div class="form-group">
-                <label for="formControlTextarea1"></label>
-                <textarea name="contentChapter" id="contentChapterId" class="form-control" rows="3"></textarea>
+                <label for="formControlTextarea"style="color:white">Contenu :</label>
+                <textarea name="contentChapter" id="textareaForm" class="form-control" rows="3"></textarea>
             </div>
 
-            <button type="submit" class="btn btn-success">Créer / Sauvegarder</button>
+            <button type="submit" id="createSave" class="btn btn-success">Créer / Sauvegarder</button>
 
         </form>
 

@@ -12,7 +12,7 @@
         <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
         <script>
         tinymce.init({
-            selector: 'textarea#contentChapterId',
+            selector: 'textarea#textareaForm',
             menubar: false,
             plugins: [
                 'advlist autolink lists link image charmap print preview anchor textcolor',

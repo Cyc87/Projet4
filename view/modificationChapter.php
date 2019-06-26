@@ -41,8 +41,8 @@
                 <input type="text" name="titleChapter" id="titleChapter" class="form-control" placeholder="Titre" value="<?= $commentModifChapter->titleChapter() ?> " >
             </div>
             <div class="form-group">
-                <label for="formControlTextarea"></label>
-                <textarea name="contentChapter" id="contentChapterId" class="form-control" rows="3"><?= $commentModifChapter->contentChapter() ?> </textarea>
+                <label for="formControlTextarea"style="color:white">Contenu :</label>
+                <textarea name="contentChapter" id="textareaForm" class="form-control" ><?= $commentModifChapter->contentChapter() ?> </textarea>
             </div>
             <?php
             }

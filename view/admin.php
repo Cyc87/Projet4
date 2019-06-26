@@ -21,7 +21,7 @@
             <div class="card text-white bg-info" style=";height:350px;top:100px;margin-top:20px">
                 <div class="card-header" style="color:black"><p><?= $comment->pseudo() ?> a commenté le  <?= $comment->dateTimeComment() ?></p></div>
                     <div class="card-body">
-                        <h5 class="card-title" style="color:black"><?= $comment->messageComment() ?></h5>
+                        <div class="card-text" style="color:black"><?= $comment->messageComment() ?></div>
                     </div>
                     <a href="index.php?action=admin&edit=<?= $comment->id() ?>&supprSigned" class="btn btn-danger" >Supprimer</a>
                     <a href="index.php?action=admin&edit=<?= $comment->id() ?>&restoreSigned" class="btn btn-warning" >Ne pas en tenir compte</a>

@@ -31,7 +31,7 @@
 
                     <div class=" form-group row ">
                         <label for="comment" class="col-sm-3 col-form-label"></label>
-                        <textarea id="comment" name="message" placeholder="Votre commentaire (Pas plus de 250 caractères...)" class="form-control col-sm-6 "></textarea> 
+                        <textarea maxlength="255"id="comment" name="message" placeholder="Votre commentaire (Pas plus de 250 caractères...)" class="form-control col-sm-6 "></textarea> 
                     </div>
                     <button type="submit" name="validate" class="btn btn-info" style="margin-left:70%;margin-top:10px;">Valider</button>
                 </form>
