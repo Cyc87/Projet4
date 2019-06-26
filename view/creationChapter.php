@@ -17,8 +17,7 @@
             <div class="form-group">
                 <label id="chapter">Chapitre : </label>
                 <input type="text" name="numberChapter" style="text-transform: capitalize;" id="numberChapterId" class="form-control" placeholder="Chapitre X" value="<?php if (isset($numberChapter)) {
-                                                                                                                                        echo $numberChapter;
-                                                                                                                                    } ?>">
+                                                                                                                                        echo $numberChapter;                                                                                                                    } ?>">
             </div>
             <div class="form-group">
                 <label id="titleChapterId">Titre :</label>
@@ -34,16 +33,17 @@
             <button type="submit" class="btn btn-success">Créer / Sauvegarder</button>
 
         </form>
+
         <?php
             if(isset($_SESSION['message'])){
         ?>
             <div class="alert alert-<?=$_SESSION['msg_type'] ?>" style="top: -55px; width: 100%; position: absolute;">
-        <?php
-            echo $_SESSION['message'];
-            unset($_SESSION['message']);
-            }
-        ?>
-    </div>  
+                <?php
+                    echo $_SESSION['message'];
+                    unset($_SESSION['message']);
+                    }
+                ?>
+            </div>  
     </section>    
         
 <?php $content = ob_get_clean(); ?>
