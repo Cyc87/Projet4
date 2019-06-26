@@ -42,12 +42,12 @@
     </section>
 
     <section id="chaptersElement">
-        <div class="row" id="index_Chapters">
+        <div class="row d-flex justify-content-around" id="index_Chapters">
             <h1>CHAPITRES</h1>
             <?php
                 foreach ($chapter as $chapter) {
             ?>
-            <div id="cardText" class="card text-white bg-light mb-3" style="width: 300px;">
+            <div class="card text-white bg-light mb-3" style="width: 300px;">
                 <div class="card-header" style="color:black"><?= $chapter->numberChapter() ?></div>
                 <div class="card-body">
                     <h5 class="card-title" style="color:black"><?= $chapter->titleChapter() ?></h5>

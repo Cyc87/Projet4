@@ -247,8 +247,8 @@ function modificationChapter(){
     }else{
         if (isset($_GET['edit']) && !empty($_GET['edit'])) {
             
-            $edit_id = htmlspecialchars($_GET['edit']);
-           
+            $edit_id = $_GET['edit'];
+            
             $chapterManager = new chapterManager;
             $commentModifChapter = $chapterManager->editChapter($edit_id);
         }
@@ -257,14 +257,14 @@ function modificationChapter(){
             $modif_id = htmlspecialchars($_GET['edit']);
             $number = htmlspecialchars($_POST['numberChapter']);
             $title = htmlspecialchars($_POST['titleChapter']);
-            $contenu = htmlspecialchars($_POST['contentChapter']);
+            $content = $_POST['contentChapter'];
 
             $chapterManager = new ChapterManager();
             
             $chapterUpdate = new ChapterCreation([
                 'numberChapter' => $number,
                 'titleChapter' => $title,
-                'contentChapter' => $contenu,
+                'contentChapter' => $content,
                 'id' => $modif_id,  
                 ]);
            

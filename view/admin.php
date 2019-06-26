@@ -14,11 +14,11 @@
         ?>
     </div>
     <section id="commentSigned">
-        <div class="row" id="rowcommentSigned">
+        <div class="row d-flex justify-content-around" id="rowcommentSigned">
             <?php
                 foreach($comment as $comment) {
             ?>
-            <div id="cardText" class="card text-white bg-info" style=";height:350px;top:100px;margin-top:20px">
+            <div class="card text-white bg-info" style=";height:350px;top:100px;margin-top:20px">
                 <div class="card-header" style="color:black"><p><?= $comment->pseudo() ?> a commenté le  <?= $comment->dateTimeComment() ?></p></div>
                     <div class="card-body">
                         <h5 class="card-title" style="color:black"><?= $comment->messageComment() ?></h5>

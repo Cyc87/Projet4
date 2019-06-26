@@ -69,7 +69,7 @@
             {
                 $chapters[] = new ChapterCreation($data);
             }
-            return $chapters; 
+            return $chapters;
         }
         public function readChapterByID(){
             $req = $this->_db->query('SELECT * FROM chapter');

@@ -1,16 +1,5 @@
 <?php $title ='Modification des Chapitres'; ?>
 
-    <script>
-        tinymce.init({
-            selector: 'textarea',
-            language : "fr_FR",
-            forced_root_block : false,
-            force_br_newlines : true,
-            force_p_newlines : false
-
-        });
-    </script>
-    
 <?php ob_start(); ?>
 
 <?php include('menuAdmin.php'); ?>
@@ -53,7 +42,7 @@
             </div>
             <div class="form-group">
                 <label for="formControlTextarea"></label>
-                <textarea name="contentChapter" id="contentChapter" class="form-control" rows="3"><?= $commentModifChapter->contentChapter() ?> </textarea>
+                <textarea name="contentChapter" id="contentChapterId" class="form-control" rows="3"><?= $commentModifChapter->contentChapter() ?> </textarea>
             </div>
             <?php
             }

@@ -1,17 +1,7 @@
 <?php $title = 'Création des Chapitres'; ?>
         
 <?php ob_start(); ?>
-    <script>
-        tinymce.init({
-            selector: 'textarea#contentChapterId',
-            language : "fr_FR",
-            forced_root_block : false,
-            force_br_newlines : true,
-            force_p_newlines : false
-
-        });
-    </script>
-
+    
     <?php 
         require "menuAdmin.php";
     ?>

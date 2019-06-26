@@ -211,7 +211,7 @@ header{
 #formModifChapter{
   margin: 0 auto;
   width: 80%;
-  height:750px;
+  height:850px;
   padding: 2em;
   border: 1px solid #CCC;
   border-radius: 1em;
@@ -239,7 +239,7 @@ header{
 }
 #modifChanged{
   position: absolute;
-  top: 680px;
+  top: 800px;
 }
 
 
@@ -328,7 +328,7 @@ footer h5 {
       font-size: 25px;
     }
     #imgModificationChapter {
-        right: -10.5%;
+        right: 10.6%
     }
     #modification_chapter {
       height: 760px;
@@ -383,23 +383,3 @@ footer h5 {
       padding-bottom: 40px;
     }
 }
-
-@media (min-device-width : 768px) and (max-device-width : 1023px),
-(min-width: 768px) and (max-width:1023px) {
-
-
-                                    /*////////////////////////*/
-                                    /*  MODIFICATION CHAPTERS */
-                                    /*////////////////////////*/
-  
-
-  #imgModificationChapter {
-        right: 10.5%;
-  }
-
-}
-
-/* @media (orientation: landscape) and (min-device-width : 1024px) and (max-device-width : 1366px),
-(min-width: 1024px) and (max-width:1366px) {
-  
-} */
