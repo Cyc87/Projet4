@@ -25,11 +25,12 @@
                                                                                                                                     echo $titleChapter;
                                                                                                                                 } ?>">
             </div>
-            <div class="form-group">
-                <label for="formControlTextarea"style="color:white">Contenu :</label>
-                <textarea name="contentChapter" id="textareaForm" class="form-control" rows="3"></textarea>
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label for="formControlTextarea"style="color:white">Contenu :</label>
+                    <textarea name="contentChapter" id="textareaForm" class="form-control" rows="3"></textarea>
+                </div>
             </div>
-
             <button type="submit" id="createSave" class="btn btn-success">Créer / Sauvegarder</button>
 
         </form>

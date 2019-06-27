@@ -40,12 +40,12 @@
                 <label id="titleChapitre"style="color:white" >Titre :</label>
                 <input type="text" name="titleChapter" id="titleChapter" class="form-control" placeholder="Titre" value="<?= $commentModifChapter->titleChapter() ?> " >
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <div class="form-group">
                     <label for="formControlTextarea"style="color:white">Contenu :</label>
-                    <textarea name="contentChapter" id="textareaForm" class="form-control" ><?= $commentModifChapter->contentChapter() ?> </textarea>
+                    <textarea name="contentChapter" id="textareaForm" class="form-control" rows="3" ><?= $commentModifChapter->contentChapter() ?> </textarea>
                 </div>
-                </div>
+            </div>
             <?php
             }
         }
