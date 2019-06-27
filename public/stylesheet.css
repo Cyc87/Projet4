@@ -15,8 +15,6 @@ header{
                               /*IMAGE and TEXT PAGE ERROR*/
                               /*/////////////////////////*/
 .img-fluid2 {
-  min-height: 100%;
-  min-width: 1600px;
   width: 100%;
   height: auto;
   position: fixed;
@@ -300,6 +298,9 @@ footer h5 {
     footer{
       padding-top: 20px;
       padding-bottom: 20px;
+    }
+    .img-fluid2 {
+     height:200px;
     }
     
                                     /*////////////////////////*/
